@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "./components/Layout/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
 
+
 const Spinner = ({ path = "login" }) => {
   const [count, setCount] = useState(5);
   const navigate = useNavigate();

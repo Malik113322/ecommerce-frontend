@@ -15,11 +15,11 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:8080/api/v1/auth/login`, { email, password });
+      const res = await axios.post(`${process.env.REACT_APP_URL}/api/v1/auth/login`, { email, password });
       if (res.data) {
         toast.success("successfully login!");
         setTimeout(() => {
-          navigate("/" || location.state);
+          navigate(location.state || "/");
         }, 2000);
         setAuth({
           ...auth,
@@ -29,6 +29,7 @@ const Login = () => {
 
         localStorage.setItem("auth", JSON.stringify(res.data));
       }
+      navigate("/");
     } catch (error) {
       console.log(error);
       toast.error("invalid email or password");
