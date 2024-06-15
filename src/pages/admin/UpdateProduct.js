@@ -23,7 +23,7 @@ const UpdateProduct = () => {
     // get single product 
     const getProduct = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:8080/api/v1/product/single-product/${params.slug}`);
+            const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/single-product/${params.slug}`);
             if (data.success) {
 
                 setCategory(data.product[0].category);
@@ -48,7 +48,7 @@ const UpdateProduct = () => {
 
     const getCategories = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:8080/api/v1/category/categories`);
+            const { data } = await axios.get(${process.env.REACT_APP_URL}/api/v1/category/categories`);
             if (data.success) {
                 setCategories(data.category)
             }
@@ -67,7 +67,7 @@ const UpdateProduct = () => {
     const updateHandle = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await axios.put(`http://localhost:8080/api/v1/product/update-product/${id}`, {
+            const { data } = await axios.put(`${process.env.REACT_APP_URL}/api/v1/product/update-product/${id}`, {
                 name,
                 description,
                 price,
