@@ -34,7 +34,7 @@ const CreateCategory = () => {
   const handleCreateCategory = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(`http://localhost:8080/api/v1/category/create-category`, { name });
+      const { data } = await axios.post(`${process.env.REACT_APP_URL}/api/v1/category/create-category`, { name });
       if (data.success) {
         toast.success(`${name} category created`)
         setName("");
@@ -49,7 +49,7 @@ const CreateCategory = () => {
   const handleCategoryUpdate = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.put(`http://localhost:8080/api/v1/category/update-category/${selected._id}`, { name: updateName });
+      const { data } = await axios.put(`${process.env.REACT_APP_URL}/api/v1/category/update-category/${selected._id}`, { name: updateName });
       if (data.success) {
         toast.success("successfully updated");
         setVisible(false);
@@ -64,7 +64,7 @@ const CreateCategory = () => {
 
   const handleCategoryDelete = async (id) => {
     try {
-      const { data } = await axios.delete(`http://localhost:8080/api/v1/category/delete-category/${id}`);
+      const { data } = await axios.delete(`${process.env.REACT_APP_URL}/api/v1/category/delete-category/${id}`);
       if (data.success) {
         toast.success("category deleted");
         getCategories();
