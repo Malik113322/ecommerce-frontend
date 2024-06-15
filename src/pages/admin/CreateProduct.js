@@ -31,7 +31,7 @@ const CreateProduct = () => {
     productForm.append("quantity", quantity)
     productForm.append("shipping", shipping)
     try {
-      const { data } = await axios.post(`http://localhost:8080/api/v1/product/create-product`, productForm);
+      const { data } = await axios.post(`${process.env.REACT_APP_URL}/api/v1/product/create-product`, productForm);
       if (data.success) {
         toast.success("successfully created product")
         setTimeout(() => {
