@@ -13,7 +13,7 @@ const Products = () => {
     // display products 
     const getProuductsHandle = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:8080/api/v1/product/get-products`);
+            const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/get-products`);
             if (data.success) {
                 setProducts(data.products);
             }
@@ -29,7 +29,7 @@ const Products = () => {
     // delete a product 
     const deleteHandle = async (id) => {
         try {
-            const { data } = await axios.delete(`http://localhost:8080/api/v1/product/delete-product/${id}`);
+            const { data } = await axios.delete(`${process.env.REACT_APP_URL}/api/v1/product/delete-product/${id}`);
             if (data.success) {
                 toast.success("Successfully deleted");
                 getProuductsHandle();
