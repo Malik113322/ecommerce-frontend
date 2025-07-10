@@ -5,16 +5,16 @@ import { useAuth } from "../context/auth";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import DropIn from "braintree-web-drop-in-react";
+import {loadStripe} from "@stripe/stripe-js";
 
 const Cart = () => {
   const [cart, setCart] = useCart();
   const [auth] = useAuth();
   const navigate = useNavigate();
-  const [clientToken, setClientToken] = useState("");
-  const [instance, setInstance] = useState("");
-  const [loading, setLoading] = useState(false);
+  
 
+
+ //remove item from cart
   const removeItemFromCart = (pid) => {
     try {
       const myCart = [...cart];
@@ -41,41 +41,24 @@ const Cart = () => {
     });
   };
 
-  //generate client token (payment)
 
-  const generateClientToken = async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_URL}/api/v1/product/braintree/token`
-      );
-      setClientToken(data.clientToken);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
-    generateClientToken();
   }, [auth.token]);
 
-  //make payment handle
+  //checkout function
 
-  const handlePayment = async() => {
+  const checkout = async() => {
     try {
-      setLoading(true);
-      const {nonce} = await instance.requestPaymentMethod();
-      const {data} = await axios.post(`${process.env.REACT_APP_URL}/api/v1/product/braintree/payment`, 
-        {nonce, cart}
-      );
-
-      setLoading(false);
-      localStorage.removeItem("cart");
-      setCart([])
-      toast.success("Payment Successfully Completed...");
-      navigate("/");
-      console.log("okk")
+      const stripe = await loadStripe('pk_test_51RDqlXQ9vwMDloJlEdnI1ytDD8LQgCTvmh2otwJEADHs9qzbO1zUWbwmiDTlJC8QLcSM8zl5f0TFhaeOS02jIGpA00EQHw74tB');
+      const {data} = await axios.post(`${process.env.REACT_APP_URL}/api/create-checkout-session`,{cart});
+      const session = data.json();
+      const result = stripe.redirectToCheckout({
+        sessionId:session.id
+      });
+      
     } catch (error) {
-      setLoading(false)
+      console.log(error)
     }
 
   };
@@ -151,29 +134,10 @@ const Cart = () => {
 
             <div className="mt-2">
 
-
-        
-        {
-          !clientToken || !cart.length ? ("") :(
-
-            (<>
-              <DropIn
-              options={{
-                authorization: clientToken,
-                paypal:{
-                  flow: "vault"
-                }
-              }}
-              />
-              </>
-            ) 
-          )
-        }
-
           <button className="btn btn-primary" 
-          onClick={()=>handlePayment()}
+          onClick={()=>checkout()}
           >
-            {loading ? "Processing" : "MAKE PAYMENT"}
+           Checkout
           </button>
           </div>
         
