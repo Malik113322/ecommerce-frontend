@@ -5,16 +5,14 @@ import { useAuth } from "../context/auth";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {loadStripe} from "@stripe/stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
   const [cart, setCart] = useCart();
   const [auth] = useAuth();
   const navigate = useNavigate();
-  
 
-
- //remove item from cart
+  //remove item from cart
   const removeItemFromCart = (pid) => {
     try {
       const myCart = [...cart];
@@ -41,31 +39,41 @@ const Cart = () => {
     });
   };
 
-
-
-  useEffect(() => {
-  }, [auth.token]);
+  useEffect(() => {}, [auth.token]);
 
   //checkout function
 
-  const checkout = async() => {
+  const checkout = async () => {
+    const stripe = await loadStripe(process.env.REACT_APP_STRIPE.PUBLIC);
     try {
-      const stripe = await loadStripe('pk_test_51RDqlXQ9vwMDloJlEdnI1ytDD8LQgCTvmh2otwJEADHs9qzbO1zUWbwmiDTlJC8QLcSM8zl5f0TFhaeOS02jIGpA00EQHw74tB');
-      const {data} = await axios.post(`${process.env.REACT_APP_URL}/api/create-checkout-session`,{cart});
-      const session = data.json();
-      const result = stripe.redirectToCheckout({
-        sessionId:session.id
-      });
-    } catch (error) {
-      console.log(error)
-    }
+      // const {data} = await axios.post(`${process.env.REACT_APP_URL}/api/create-checkout-session`,{cart});
+      // console.log(data)
+      if(cart.length>0){
 
+        const data = await fetch(
+          "http://localhost:8080/api/v1/product/api/create-checkout-session",
+          {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify({ products: cart }),
+          }
+        );
+        const session = await data.json();
+        const result = await stripe.redirectToCheckout({
+          sessionId: session.id,
+        });
+        
+      }
+      toast.error('please add some product in cart!');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    
     <Layout title={"Cart Page"}>
-
       <div className="overflow-hidden">
         <div className="text-center mt-2">
           <h2>{auth.token && `Hello ${auth.user.name}`}</h2>
@@ -110,7 +118,7 @@ const Cart = () => {
           <div className="col-md-4 text-center mb-3">
             <h4>Cart Summary</h4>
             <p>TOTAL | CHECHKOUT | PAYMENT</p>
-            <h4>TOTAL: {totalPrice()}</h4>
+            <h4>TOTAL:  {totalPrice()}</h4>
             {auth.token ? (
               <>
                 <p>Current Address</p>
@@ -132,19 +140,13 @@ const Cart = () => {
             )}
 
             <div className="mt-2">
-
-          <button className="btn btn-primary" 
-          onClick={()=>checkout()}
-          >
-           Checkout
-          </button>
+              <button className="btn btn-primary" onClick={() => checkout()}>
+                Checkout for payment
+              </button>
+            </div>
           </div>
-        
-        </div>
-
         </div>
       </div>
-      
     </Layout>
   );
 };
