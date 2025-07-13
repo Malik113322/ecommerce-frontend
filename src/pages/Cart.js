@@ -44,7 +44,7 @@ const Cart = () => {
   //checkout function
 
   const checkout = async () => {
-    const stripe = await loadStripe(process.env.REACT_APP_STRIPE.PUBLIC);
+    const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC);
     try {
       // const {data} = await axios.post(`${process.env.REACT_APP_URL}/api/create-checkout-session`,{cart});
       // console.log(data)
