@@ -140,9 +140,11 @@ const Cart = () => {
             )}
 
             <div className="mt-2">
-              <button className="btn btn-primary" onClick={() => checkout()}>
+              {
+                auth.token?(<button className="btn btn-primary" onClick={() => checkout()}>
                 Checkout for payment
-              </button>
+              </button>):''
+              }
             </div>
           </div>
         </div>
