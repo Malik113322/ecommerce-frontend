@@ -140,7 +140,7 @@ const Cart = () => {
             )}
 
           {
-             {'token':localStorage.getItem('auth')}?<div className="mt-2">
+             auth.token?<div className="mt-2">
               <button className="btn btn-primary" onClick={() => checkout()}>
                 Checkout for payment
               </button>
