@@ -24,6 +24,8 @@ import ProductDetails from "./pages/ProductDetails";
 import CategoryProduct from "./pages/CategoryProduct";
 import Profile from "./pages/user/Profile";
 import Orders from "./pages/user/Orders";
+import Success from "./stripe-pages/Success";
+import Cancle from "./stripe-pages/Cancel";
 
 const App = () => {
   return (
@@ -55,6 +57,8 @@ const App = () => {
       <Route path="/categories" element={<Categories />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/policy" element={<Policy />} />
+      <Route path="/success" element={<Success/>}/>
+      <Route path="/cancel" element={<Cancle/>}/>
       <Route path="*" element={<Pagenot />} />
     </Routes>
   );
