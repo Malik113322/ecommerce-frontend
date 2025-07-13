@@ -51,7 +51,7 @@ const Cart = () => {
       if(cart.length>0){
 
         const data = await fetch(
-          "http://localhost:8080/api/v1/product/api/create-checkout-session",
+          `${process.env.REACT_APP_URL}/api/v1/product/api/create-checkout-session`,
           {
             method: "POST",
             headers: {
