@@ -139,13 +139,17 @@ const Cart = () => {
               </button>
             )}
 
-            <div className="mt-2">
-              {
-                auth.token?(<button className="btn btn-primary" onClick={() => checkout()}>
+          {
+             {'token':localStorage.getItem('auth')}?<div className="mt-2">
+              <button className="btn btn-primary" onClick={() => checkout()}>
                 Checkout for payment
-              </button>):''
-              }
-            </div>
+              </button>
+              <br/>
+              <hr/>
+              <p id="card-number">demo-card: 👉 4242424242424242</p>
+              <hr/>
+            </div>:''
+            }
           </div>
         </div>
       </div>
