@@ -48,7 +48,7 @@ const Headers = () => {
             <NavLink to={"/"} className="navbar-brand">
               🛒 eCommerce
             </NavLink>
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center justify-content-center">
               <SearchInput />
               <li className="nav-item">
 
@@ -136,10 +136,10 @@ const Headers = () => {
                 </>
               )}
 
-              <li className="nav-item ">
+              <li className="nav-item">
                 <NavLink to={"/cart"} className="nav-link active">
                   <Badge count={cart.length} showZero>
-                    <p className="nav-item color">Cart</p>
+                    <p className="nav-item color">🛒</p>
                   </Badge>
                 </NavLink>
               </li>
