@@ -103,7 +103,7 @@ const Home = () => {
             <div class="spinner-border" role="status">
               <span class="sr-only"></span>
             </div> </div> : (<div className="row">
-              <div className="col-md-2 mt-5 ms-5">
+              <div className="col-md-2 mt-5 ms-5 ">
                 <h4>Catgories</h4>
                 <div className="d-flex flex-column">
                   {
@@ -138,14 +138,14 @@ const Home = () => {
 
                   {
                     paginatedData.map((p) => (
-                      <div key={p._id} className='d-flex flex-wrap w-100' style={{ maxWidth: "300px" }}>
-                        <div className="card d-flex justify-content-between text-center  m-2" style={{ width: '15rem', height: '22rem' }}>
-                          <div>
+                      <div key={p._id} className='d-flex' style={{ maxWidth: "300px" }}>
+                        <div className="card d-flex justify-content-between text-center m-2 " style={{ width: '15rem', height: '20rem' }}>
+                          <div className="w-100">
                             <img src={p.image} className="m-auto mt-2" alt="product" style={{ width: "120px", height: "120px" }} />
                             <div className="card-body" style={{ height: "12rem" }}>
-                              <div className="w-100 h-100">
+                              <div className="w-100 h-75">
                                 <p className="card-title">{p.name}</p>
-                                <p className="card-text">{p.description.substring(1, 30)}...</p>
+                                <p className="card-text">{p.description.substring(1, 20)}...</p>
                                 <p className="card-title">Price: ${p.price}</p>
                               </div>
                               <button className="btn btn-success px-1 mx-1" onClick={() => navigate(`/product/${p.slug}`)}>Details</button>
@@ -161,6 +161,7 @@ const Home = () => {
                     ))
                   }
                 </div>
+              </div>
                 <div className="paginationCard w-100 d-flex flex-wrap justify-content-center align-items-center">
                   <button className="btn btn-danger"
                     disabled={currentPage === totalPage}
@@ -172,7 +173,6 @@ const Home = () => {
                     onClick={() => currentPage > 1 ? setCurrentPage(pre => pre - 1) : ''}
                   >Prev</button>
                 </div>
-              </div>
             </div>)
         }
       </div>
