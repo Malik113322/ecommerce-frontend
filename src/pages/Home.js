@@ -6,17 +6,22 @@ import { Price } from "../components/Layout/Price";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
+import Spinner from "../Spinner";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [cart, setCart] = useCart([]);
+  const itemsPerPage = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+  const start = (currentPage-1)*itemsPerPage;
+  const end = start+itemsPerPage;
+  const paginatedData = products.slice(start,end);
+  const totalPage = Math.ceil(products.length/itemsPerPage);
 
 
   // get products 
@@ -30,40 +35,16 @@ const Home = () => {
   const getProductsClient = async () => {
     try {
       setLoading(true)
-      const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/product-list/${page}`);
-      setLoading(false)
+      const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/get-products`);
       // console.log(data.products)
       setProducts(data.products)
+      setLoading(false)
     } catch (error) {
       console.log(error)
       setLoading(false)
 
     }
   }
-
-  useEffect(() => {
-    if (page === 1) return;
-    loadmoreHandler();
-  }, [page])
-
-  //loadmore 
-  const loadmoreHandler = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/product-list/${page}`);
-      setLoading(false)
-      setProducts([...products, ...data.products]);
-    } catch (error) {
-      console.log(error)
-      setLoading(false)
-
-    }
-  }
-
-  // useEffect(() => {
-  //   if (page === 1) return;
-  //   loadmoreHandler();
-  // }, [page])
 
 
   // get filter products 
@@ -90,7 +71,6 @@ const Home = () => {
       setLoading(true)
       const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/product-count`);
       setLoading(false)
-      setTotal(data.total)
     } catch (error) {
       setLoading(false)
       console.log(error)
@@ -133,7 +113,8 @@ const Home = () => {
   return (
     <Layout title={"eCommerce - A online shop"}>
       <div className="overflow-hidden" >
-        <div className="row">
+        {
+          loading? <h2>Loading...</h2> :(<div className="row">
           <div className="col-md-2 mt-5 ms-5">
             <h4>Catgories</h4>
             <div className="d-flex flex-column">
@@ -168,16 +149,18 @@ const Home = () => {
             <div className="d-flex flex-wrap text-center">
 
               {
-                products.map((p) => (
-                  <div key={p._id} className='d-flex flex-wrap mx-2 '>
-                    <div className="card d-flex justify-content-between text-center  m-2" style={{ width: '16rem' }}>
+                paginatedData.map((p) => (
+                  <div key={p._id} className='d-flex flex-wrap w-100' style={{ maxWidth: "300px" }}>
+                    <div className="card d-flex justify-content-between text-center  m-2" style={{ width: '15rem',  height:'22rem'}}>
                       <div>
-                        <img src={p.image} className="m-auto mt-2" alt="product" style={{ width: "100px", height: "100px" }} />
+                        <img src={p.image} className="m-auto mt-2" alt="product" style={{ width: "120px", height: "120px" }} />
                         <div className="card-body" style={{ height: "12rem" }}>
-                          <h5 className="card-title">{p.name}</h5>
-                          <h6 className="card-title">${p.price}</h6>
-                          <h6 className="card-text">{`${p.description.substring(0, 40)}...`}</h6>
-                          <button className="btn btn-success px-1 mx-1" onClick={() => navigate(`/product/${p.slug}`)}>More Details</button>
+                          <div className="w-100 h-100">
+                            <p className="card-title">{p.name}</p>
+                          <p className="card-text">{p.description.substring(1,30)}...</p>
+                          <p className="card-title">Price: ${p.price}</p>
+                          </div>
+                          <button className="btn btn-success px-1 mx-1" onClick={() => navigate(`/product/${p.slug}`)}>Details</button>
                           <button className='btn btn-primary px-2' onClick={() => {
                             setCart([...cart, p]);
                             localStorage.setItem("cart", JSON.stringify([...cart, p]));
@@ -190,26 +173,22 @@ const Home = () => {
                 ))
               }
             </div>
-            {
-              products && products.length < total && (
-                <button className="btn btn-warning"
-                  onClick={(e) => { e.preventDefault(); setPage(page + 1) }}
-                >
-                  {
-                    loading ? (
-                      <div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                      </div>
-                    ) : " Loadmore"
-                  }
-                </button>
-              )
-            }
+          <div className="paginationCard w-100 d-flex flex-wrap justify-content-center align-items-center">
+            <button className="btn btn-danger" 
+            disabled={currentPage===totalPage}
+            onClick={()=>currentPage<totalPage?setCurrentPage(pre=>pre+1):''}>Next</button>
+            {Array.from({length:totalPage}, (_, index)=>(
+              <button onClick={()=>setCurrentPage(index+1)} className="btn btn-outline-danger border-2  mx-1 text-black">{index+1}</button>
+            ))}
+            <button className="btn btn-danger"
+            onClick={()=>currentPage>1?setCurrentPage(pre=>pre-1):''}
+            >Prev</button>
           </div>
-
-
-        </div>
+          </div>
+        </div>)
+        }
       </div>
+  
     </Layout>
   );
 };
