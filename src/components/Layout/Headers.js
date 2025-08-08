@@ -48,9 +48,12 @@ const Headers = () => {
             <NavLink to={"/"} className="navbar-brand">
               🛒 eCommerce
             </NavLink>
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center justify-content-center">
-              <SearchInput />
-              <li className="nav-item">
+            <div className="w-75 mx-2">
+          <SearchInput />
+            </div>
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center justify-content-center w-50 ">
+              
+              <li className="nav-item small">
 
                 <NavLink
                   to={"/"}
@@ -62,7 +65,7 @@ const Headers = () => {
                 </NavLink>
               </li>
 
-              <li className="nav-item dropdown">
+              <li className="nav-item dropdown small">
                 <Link to={`/category`} className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Category
                 </Link>
@@ -80,7 +83,7 @@ const Headers = () => {
 
               {!auth.user ? (
                 <>
-                  <li className="nav-item">
+                  <li className="nav-item small">
                     <NavLink
                       to={"/register"}
                       className="nav-link active"
@@ -90,7 +93,7 @@ const Headers = () => {
                     </NavLink>
                   </li>
 
-                  <li className="nav-item">
+                  <li className="nav-item small">
                     <NavLink
                       to={"/login"}
                       className="nav-link active"
@@ -102,7 +105,7 @@ const Headers = () => {
                 </>
               ) : (
                 <>
-                  <li className="nav-item dropdown">
+                  <li className="nav-item dropdown small">
                     <NavLink
                       to={""}
                       className="nav-link dropdown-toggle"
@@ -122,7 +125,7 @@ const Headers = () => {
                           Dashboard
                         </NavLink>
                       </li>
-                      <li className="nav-item">
+                      <li className="nav-item small">
                         <NavLink
                           to={"/login"}
                           className="nav-link active"
@@ -136,7 +139,7 @@ const Headers = () => {
                 </>
               )}
 
-              <li className="nav-item">
+              <li className="nav-item small">
                 <NavLink to={"/cart"} className="nav-link active">
                   <Badge count={cart.length} showZero>
                     <p className="nav-item color">🛒</p>

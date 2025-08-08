@@ -162,7 +162,7 @@ const Home = () => {
                   }
                 </div>
               </div>
-                <div className="paginationCard w-100 d-flex flex-wrap justify-content-center align-items-center">
+                <div className="paginationCard w-100 d-flex flex-wrap justify-content-center align-items-center my-1">
                   <button className="btn btn-danger"
                     disabled={currentPage === totalPage}
                     onClick={() => currentPage < totalPage ? setCurrentPage(pre => pre + 1) : ''}>Next</button>
