@@ -6,6 +6,10 @@ import SearchInput from "../../Form/SearchInput";
 import useCategory from "../../hooks/useCategory";
 import { useCart } from "../../context/cart";
 import { Badge } from "antd";
+import { HiOutlineMenu } from "react-icons/hi";
+import { AiFillHome, AiOutlineUser } from "react-icons/ai";
+import { BiCategory } from "react-icons/bi";
+import { BsCart3 } from "react-icons/bs";
 
 const Headers = () => {
   const [auth, setAuth] = useAuth();
@@ -13,7 +17,6 @@ const Headers = () => {
   const category = useCategory();
   const [cart] = useCart();
 
-  // logout
   const handleLogout = (e) => {
     e.preventDefault();
     toast.success("Successfully Logout");
@@ -26,137 +29,179 @@ const Headers = () => {
 
   return (
     <>
-      <nav className="navbar bg-body-tertiary px-3">
-        {/* Hamburger for mobile */}
-        <button
-          className="btn btn-outline-dark d-lg-none me-2"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#mobileMenu"
-          aria-controls="mobileMenu"
-        >
-          <i className="bi bi-list"></i>
-        </button>
+      {/* Upper Navbar */}
+      <nav
+        className="navbar navbar-expand-lg px-3 py-3 shadow-sm"
+        style={{ background: "linear-gradient(90deg, #4b6cb7, #182848)" }}
+      >
+        <div className="container-fluid d-flex align-items-center justify-content-between">
 
-        {/* Brand */}
-        <NavLink to={"/"} className="navbar-brand">
-          🛒 eCommerce
-        </NavLink>
-        
+          {/* Mobile: Hamburger + Brand + Cart */}
+          <div className="d-flex align-items-center d-lg-none w-100 justify-content-between">
+            <button
+              className="btn text-white"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#mobileMenu"
+              aria-controls="mobileMenu"
+            >
+              <HiOutlineMenu size={26} />
+            </button>
 
-        {/* Search Centered */}
-        <div className="mx-auto w-50 d-none d-lg-block">
-          <SearchInput />
-        </div>
+            <NavLink to="/" className="navbar-brand text-white fw-bold fs-2 ">
+              🛒 eCommerce
+            </NavLink>
 
-        {/* Cart Always Right */}
-        <div className="ms-auto d-flex align-items-center">
-          <NavLink to={"/cart"} className="nav-link">
-            <Badge count={cart.length} showZero>
-              <i className="bi bi-cart3 fs-5"></i>
-            </Badge>
-          </NavLink>
+            <NavLink to="/cart" className="nav-link text-white position-relative">
+              <Badge count={cart.length} showZero>
+                <BsCart3 size={24} />
+              </Badge>
+            </NavLink>
+          </div>
+
+          {/* Desktop Navbar */}
+          <div className="d-none d-lg-flex align-items-center w-100 justify-content-between">
+            {/* Left links */}
+            <ul className="navbar-nav d-flex align-items-center gap-3">
+              <li className="nav-item">
+                <NavLink to="/" className="nav-link text-white">Home</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/about" className="nav-link text-white">About</NavLink>
+              </li>
+              <li className="nav-item dropdown">
+                <NavLink
+                  to="/category"
+                  className="nav-link dropdown-toggle text-white"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                >
+                  Categories
+                </NavLink>
+                <ul className="dropdown-menu">
+                  {category.map((c) => (
+                    <li key={c._id}>
+                      <Link to={`/category/${c.slug}`} className="dropdown-item">
+                        {c.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            </ul>
+
+            {/* Center search */}
+            <div className="mx-auto w-50">
+              <SearchInput />
+            </div>
+
+            {/* Right links */}
+            <ul className="navbar-nav d-flex align-items-center gap-3">
+              {!auth.user ? (
+                <>
+                  <li className="nav-item">
+                    <NavLink to="/register" className="nav-link text-white">Register</NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/login" className="nav-link text-white">Login</NavLink>
+                  </li>
+                </>
+              ) : (
+                <li className="nav-item dropdown">
+                  <NavLink to="" className="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown">
+                    {auth.user.name}
+                  </NavLink>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <NavLink to={`/dashboard/${auth.user.role === 1 ? "admin" : "user"}`} className="dropdown-item">
+                        Dashboard
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/login" className="dropdown-item" onClick={handleLogout}>
+                        Logout
+                      </NavLink>
+                    </li>
+                  </ul>
+                </li>
+              )}
+
+              <li className="nav-item">
+                <NavLink to="/cart" className="nav-link text-white position-relative">
+                  <Badge count={cart.length} showZero>
+                    <BsCart3 size={24} />
+                  </Badge>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
         </div>
       </nav>
 
-      {/* Search visible in mobile center */}
-      <div className="d-lg-none px-3 my-2">
-        <SearchInput />
+      {/* Mobile Bottom Navigation */}
+      <div className="d-lg-none fixed-bottom bg-white shadow-sm border-top">
+        <div className="d-flex justify-content-around py-2">
+          <NavLink to="/" className="text-center text-dark">
+            <AiFillHome size={24} />
+            <div className="small">Home</div>
+          </NavLink>
+
+          <NavLink to="/category" className="text-center text-dark">
+            <BiCategory size={24} />
+            <div className="small">Category</div>
+          </NavLink>
+
+          <NavLink to="/cart" className="text-center text-dark position-relative">
+            <Badge count={cart.length} showZero>
+              <BsCart3 size={24} />
+            </Badge>
+            <div className="small">Cart</div>
+          </NavLink>
+
+          <NavLink to={auth.user ? `/dashboard/${auth.user.role === 1 ? "admin" : "user"}` : "/login"} className="text-center text-dark">
+            <AiOutlineUser size={24} />
+            <div className="small">{auth.user ? "Profile" : "Login"}</div>
+          </NavLink>
+        </div>
       </div>
 
-      {/* Offcanvas Menu (from left side) */}
-      <div
-        className="offcanvas offcanvas-start"
-        tabIndex="-1"
-        id="mobileMenu"
-        aria-labelledby="mobileMenuLabel"
-      >
+      {/* Offcanvas Menu */}
+      <div className="offcanvas offcanvas-start" tabIndex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
         <div className="offcanvas-header">
-          <h5 className="offcanvas-title" id="mobileMenuLabel">
-            Menu
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
+          <h5 className="offcanvas-title" id="mobileMenuLabel">Menu</h5>
+          <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div className="offcanvas-body">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <NavLink to={"/"} className="nav-link" data-bs-dismiss="offcanvas">
-                Home
-              </NavLink>
+              <NavLink to="/" className="nav-link" data-bs-dismiss="offcanvas">Home</NavLink>
             </li>
-
-            {/* Category Dropdown */}
             <li className="nav-item">
-              <Link
-                to={`/category`}
-                className="nav-link"
-                data-bs-dismiss="offcanvas"
-              >
-                Categories
-              </Link>
+              <Link to="/category" className="nav-link" data-bs-dismiss="offcanvas">Categories</Link>
               <ul className="list-unstyled ms-3">
                 {category.map((c) => (
                   <li key={c._id}>
-                    <Link
-                      to={`/category/${c.slug}`}
-                      className="nav-link"
-                      data-bs-dismiss="offcanvas"
-                    >
-                      {c.name}
-                    </Link>
+                    <Link to={`/category/${c.slug}`} className="nav-link" data-bs-dismiss="offcanvas">{c.name}</Link>
                   </li>
                 ))}
               </ul>
             </li>
-
             {!auth.user ? (
               <>
                 <li className="nav-item">
-                  <NavLink
-                    to={"/register"}
-                    className="nav-link"
-                    data-bs-dismiss="offcanvas"
-                  >
-                    Register
-                  </NavLink>
+                  <NavLink to="/register" className="nav-link" data-bs-dismiss="offcanvas">Register</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink
-                    to={"/login"}
-                    className="nav-link"
-                    data-bs-dismiss="offcanvas"
-                  >
-                    Login
-                  </NavLink>
+                  <NavLink to="/login" className="nav-link" data-bs-dismiss="offcanvas">Login</NavLink>
                 </li>
               </>
             ) : (
               <>
                 <li className="nav-item">
-                  <NavLink
-                    to={`/dashboard/${
-                      auth.user.role === 1 ? "admin" : "user"
-                    }`}
-                    className="nav-link"
-                    data-bs-dismiss="offcanvas"
-                  >
-                    Dashboard
-                  </NavLink>
+                  <NavLink to={`/dashboard/${auth.user.role === 1 ? "admin" : "user"}`} className="nav-link" data-bs-dismiss="offcanvas">Dashboard</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink
-                    to={"/login"}
-                    className="nav-link"
-                    onClick={handleLogout}
-                    data-bs-dismiss="offcanvas"
-                  >
-                    Logout
-                  </NavLink>
+                  <NavLink to="/login" className="nav-link" onClick={handleLogout} data-bs-dismiss="offcanvas">Logout</NavLink>
                 </li>
               </>
             )}
