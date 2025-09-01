@@ -35,7 +35,6 @@ const Home = () => {
     try {
       setLoading(true)
       const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/get-products`);
-      // console.log(data.products)
       setProducts(data.products)
       setLoading(false)
     } catch (error) {
@@ -97,88 +96,183 @@ const Home = () => {
 
   return (
     <Layout title={"eCommerce - A online shop"}>
-      <div className="overflow-hidden" >
-        {
-          loading ? <div className="w-100 vh-100 d-flex justify-content-center align-items-center">
-            <div class="spinner-border" role="status">
-              <span class="sr-only"></span>
-            </div> </div> : (<div className="row">
-              <div className="col-md-2 mt-5 ms-5 ">
-                <h4>Catgories</h4>
-                <div className="d-flex flex-column">
-                  {
-                    categories.map((c) => (
-                      <Checkbox key={c._id} onChange={(e) => handleFilter(e.target.checked, c._id)}>
-                        {c.name}
-                      </Checkbox>
-                    ))
-                  }
-                </div>
-                <div className="mt-5">
-                  <h2>Price</h2>
-                  <Radio.Group onChange={(e) => setRadio(e.target.value)}>
-                    {
-                      Price.map((p) => (
-                        <div key={p._id}>
-                          <Radio value={p.array}>
-                            {p.name}
-                          </Radio>
-                        </div>
-
-                      ))
-                    }
-                  </Radio.Group>
-                </div>
-                <div className="mt-2">
-                  <button className="btn btn-danger" onClick={() => window.location.reload()}>REST DEFAULT</button>
-                </div>
+      <div className="container-fluid">
+        {loading ? (
+          <div className="w-100 vh-100 d-flex justify-content-center align-items-center">
+            <div className="spinner-border" role="status">
+              <span className="sr-only"></span>
+            </div>
+          </div>
+        ) : (
+          <div className="row">
+            {/* Desktop Sidebar */}
+            <div className="col-lg-2 d-none d-lg-block mt-4">
+              <h5 className="fw-bold">Categories</h5>
+              <div className="d-flex flex-column">
+                {categories.map((c) => (
+                  <Checkbox
+                    key={c._id}
+                    onChange={(e) => handleFilter(e.target.checked, c._id)}
+                  >
+                    {c.name}
+                  </Checkbox>
+                ))}
               </div>
-              <div className="col-md-9 text-center ms-5 mt-3 mb-3">
-                <div className="d-flex flex-wrap text-center">
 
-                  {
-                    paginatedData.map((p) => (
-                      <div key={p._id} className='d-flex' style={{ maxWidth: "300px" }}>
-                        <div className="card d-flex justify-content-between text-center m-2 " style={{ width: '15rem', height: '20rem' }}>
-                          <div className="w-100">
-                            <img src={p.image} className="m-auto mt-2" alt="product" style={{ width: "120px", height: "120px" }} />
-                            <div className="card-body" style={{ height: "12rem" }}>
-                              <div className="w-100 h-75">
-                                <p className="card-title">{p.name}</p>
-                                <p className="card-text">{p.description.substring(1, 20)}...</p>
-                                <p className="card-title">Price: ${p.price}</p>
-                              </div>
-                              <button className="btn btn-success px-1 mx-1" onClick={() => navigate(`/product/${p.slug}`)}>Details</button>
-                              <button className='btn btn-primary px-2' onClick={() => {
-                                setCart([...cart, p]);
-                                localStorage.setItem("cart", JSON.stringify([...cart, p]));
-                                toast.success("Added To Cart Successfully");
-                              }}>Add to Cart</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  }
-                </div>
-              </div>
-                <div className="paginationCard w-100 d-flex flex-wrap justify-content-center align-items-center my-1">
-                  <button className="btn btn-danger"
-                    disabled={currentPage === totalPage}
-                    onClick={() => currentPage < totalPage ? setCurrentPage(pre => pre + 1) : ''}>Next</button>
-                  {Array.from({ length: totalPage }, (_, index) => (
-                    <button onClick={() => setCurrentPage(index + 1)} className="btn btn-outline-danger border-2  mx-1 text-black">{index + 1}</button>
+              <div className="mt-4">
+                <h5 className="fw-bold">Price</h5>
+                <Radio.Group onChange={(e) => setRadio(e.target.value)}>
+                  {Price.map((p) => (
+                    <div key={p._id}>
+                      <Radio value={p.array}>{p.name}</Radio>
+                    </div>
                   ))}
-                  <button className="btn btn-danger"
-                    onClick={() => currentPage > 1 ? setCurrentPage(pre => pre - 1) : ''}
-                  >Prev</button>
-                </div>
-            </div>)
-        }
-      </div>
+                </Radio.Group>
+              </div>
 
+              <div className="mt-3">
+                <button
+                  className="btn btn-outline-danger w-100"
+                  onClick={() => window.location.reload()}
+                >
+                  Reset Filters
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile Filters */}
+              {/* Mobile Filters */}
+              <div className="d-block d-lg-none w-100 mt-3">
+  <h6 className="fw-bold px-2">Categories</h6>
+
+  <div className="d-flex flex-row align-items-center py-2 px-2">
+
+    {/* Fixed Reset button */}
+    <button
+  className="btn btn-outline-danger rounded-pill px-3 me-2 flex-shrink-0 d-flex align-items-center gap-1"
+  onClick={() => window.location.reload()}
+>
+  <i className="bi bi-arrow-clockwise"></i>
+</button>
+
+
+    {/* Scrollable categories */}
+    <div className="d-flex flex-row flex-nowrap overflow-auto no-scrollbar">
+      {categories.map((c) => (
+        <button
+          key={c._id}
+          className="btn btn-outline-dark  rounded-3 px-4 py-1 me-1"
+          onClick={() => handleFilter(true, c._id)}
+        >
+          {c.name}
+        </button>
+      ))}
+    </div>
+
+  </div>
+</div>
+
+
+
+            {/* Products Grid */}
+            <div className="col-lg-10 mt-3">
+              <div className="row">
+                {paginatedData.map((p) => (
+                  <div key={p._id} className="col-6 col-md-4 col-lg-3 mb-4">
+                    <div className="card h-100 shadow border-0 rounded-4 hover-card">
+  {/* Product Image */}
+  <div className="d-flex justify-content-center align-items-center p-3">
+    <img
+      src={p.image}
+      className="card-img-top"
+      alt={p.name}
+      style={{ width: "150px", height: "150px", objectFit: "contain" }}
+    />
+  </div>
+
+  {/* Card Body */}
+  <div className="card-body d-flex flex-column">
+    {/* Product Name */}
+    <h6 className="fw-bold text-center">{p.name}</h6>
+
+    {/* Responsive Description */}
+    <p className="text-muted small  d-block d-lg-none">
+      {p.description.length > 40
+        ? p.description.substring(0, 40) + "..."
+        : p.description}
+    </p>
+    <p className="text-muted small  d-none d-lg-block">
+      {p.description}
+    </p>
+
+    {/* Price */}
+    <p className="fw-bold text-success text-center fs-5 mb-3">
+      ${p.price}
+    </p>
+
+    {/* Buttons */}
+    <div className="mt-auto">
+      <button
+        className="btn btn-sm btn-outline-primary w-100 mb-2"
+        onClick={() => navigate(`/product/${p.slug}`)}
+      >
+        View Details
+      </button>
+      <button
+        className="btn btn-sm btn-success w-100 "
+        onClick={() => {
+          setCart([...cart, p]);
+          localStorage.setItem("cart", JSON.stringify([...cart, p]));
+          toast.success("Added To Cart Successfully");
+        }}
+      >
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
+
+                  </div>
+                ))}
+              </div>
+
+              {/* Pagination */}
+              <div className="d-flex justify-content-center align-items-center my-3 flex-wrap">
+                <button
+                  className="btn btn-outline-danger mx-1"
+                  onClick={() => currentPage > 1 && setCurrentPage((pre) => pre - 1)}
+                  disabled={currentPage === 1}
+                >
+                  Prev
+                </button>
+                {Array.from({ length: totalPage }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentPage(index + 1)}
+                    className={`btn mx-1 ${currentPage === index + 1
+                        ? "btn-danger"
+                        : "btn-outline-danger"
+                      }`}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+                <button
+                  className="btn btn-outline-danger mx-1"
+                  onClick={() =>
+                    currentPage < totalPage && setCurrentPage((pre) => pre + 1)
+                  }
+                  disabled={currentPage === totalPage}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </Layout>
-  );
+  )
 };
 
 export default Home;
