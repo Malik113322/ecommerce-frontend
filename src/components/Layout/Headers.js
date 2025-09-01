@@ -13,17 +13,12 @@ const Headers = () => {
   const category = useCategory();
   const [cart] = useCart();
 
-
   // logout
   const handleLogout = (e) => {
     e.preventDefault();
-
     toast.success("Successfully Logout");
     setTimeout(() => {
-      setAuth({
-        user: null,
-        token: "",
-      });
+      setAuth({ user: null, token: "" });
       localStorage.removeItem("auth");
       navigate("/login");
     }, 2000);
@@ -31,137 +26,143 @@ const Headers = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarTogglerDemo01"
-            aria-controls="navbarTogglerDemo01"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <NavLink to={"/"} className="navbar-brand">
-              🛒 eCommerce
-            </NavLink>
-            <div className="w-75 mx-2">
+      <nav className="navbar bg-body-tertiary px-3">
+        {/* Hamburger for mobile */}
+        <button
+          className="btn btn-outline-dark d-lg-none me-2"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#mobileMenu"
+          aria-controls="mobileMenu"
+        >
+          <i className="bi bi-list"></i>
+        </button>
+
+        {/* Brand */}
+        <NavLink to={"/"} className="navbar-brand">
+          🛒 eCommerce
+        </NavLink>
+        
+
+        {/* Search Centered */}
+        <div className="mx-auto w-50 d-none d-lg-block">
           <SearchInput />
-            </div>
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center justify-content-center w-50 ">
-              
-              <li className="nav-item small">
+        </div>
 
-                <NavLink
-                  to={"/"}
-                  className="nav-link active"
-                  aria-current="page"
-                >
-
-                  Home
-                </NavLink>
-              </li>
-
-              <li className="nav-item dropdown small">
-                <Link to={`/category`} className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Category
-                </Link>
-                <ul className="dropdown-menu">
-                  {
-                    category.map((c) => (
-
-                      <li key={c._id}><Link to={`/category/${c.slug}`} className="dropdown-item" >{c.name}</Link></li>
-                    ))
-                  }
-
-                </ul>
-              </li>
-
-
-              {!auth.user ? (
-                <>
-                  <li className="nav-item small">
-                    <NavLink
-                      to={"/register"}
-                      className="nav-link active"
-                      aria-current="page"
-                    >
-                      Register
-                    </NavLink>
-                  </li>
-
-                  <li className="nav-item small">
-                    <NavLink
-                      to={"/login"}
-                      className="nav-link active"
-                      aria-current="page"
-                    >
-                      Login
-                    </NavLink>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li className="nav-item dropdown small">
-                    <NavLink
-                      to={""}
-                      className="nav-link dropdown-toggle"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      {auth?.user?.name}
-                    </NavLink>
-                    <ul className="dropdown-menu">
-                      <li className="nav-item">
-                        <NavLink
-                          to={`/dashboard/${auth.user.role === 1 ? "admin" : "user"
-                            }`}
-                          className="nav-link active"
-                        >
-                          Dashboard
-                        </NavLink>
-                      </li>
-                      <li className="nav-item small">
-                        <NavLink
-                          to={"/login"}
-                          className="nav-link active"
-                          onClick={handleLogout}
-                        >
-                          Logout
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </li>
-                </>
-              )}
-
-              <li className="nav-item small">
-                <NavLink to={"/cart"} className="nav-link active">
-                  <Badge count={cart.length} showZero>
-                    <p className="nav-item color">🛒</p>
-                  </Badge>
-                </NavLink>
-              </li>
-            </ul>
-
-            {/* <form className="d-flex" role="search">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form> */}
-          </div>
+        {/* Cart Always Right */}
+        <div className="ms-auto d-flex align-items-center">
+          <NavLink to={"/cart"} className="nav-link">
+            <Badge count={cart.length} showZero>
+              <i className="bi bi-cart3 fs-5"></i>
+            </Badge>
+          </NavLink>
         </div>
       </nav>
+
+      {/* Search visible in mobile center */}
+      <div className="d-lg-none px-3 my-2">
+        <SearchInput />
+      </div>
+
+      {/* Offcanvas Menu (from left side) */}
+      <div
+        className="offcanvas offcanvas-start"
+        tabIndex="-1"
+        id="mobileMenu"
+        aria-labelledby="mobileMenuLabel"
+      >
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="mobileMenuLabel">
+            Menu
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div className="offcanvas-body">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <NavLink to={"/"} className="nav-link" data-bs-dismiss="offcanvas">
+                Home
+              </NavLink>
+            </li>
+
+            {/* Category Dropdown */}
+            <li className="nav-item">
+              <Link
+                to={`/category`}
+                className="nav-link"
+                data-bs-dismiss="offcanvas"
+              >
+                Categories
+              </Link>
+              <ul className="list-unstyled ms-3">
+                {category.map((c) => (
+                  <li key={c._id}>
+                    <Link
+                      to={`/category/${c.slug}`}
+                      className="nav-link"
+                      data-bs-dismiss="offcanvas"
+                    >
+                      {c.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </li>
+
+            {!auth.user ? (
+              <>
+                <li className="nav-item">
+                  <NavLink
+                    to={"/register"}
+                    className="nav-link"
+                    data-bs-dismiss="offcanvas"
+                  >
+                    Register
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    to={"/login"}
+                    className="nav-link"
+                    data-bs-dismiss="offcanvas"
+                  >
+                    Login
+                  </NavLink>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <NavLink
+                    to={`/dashboard/${
+                      auth.user.role === 1 ? "admin" : "user"
+                    }`}
+                    className="nav-link"
+                    data-bs-dismiss="offcanvas"
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    to={"/login"}
+                    className="nav-link"
+                    onClick={handleLogout}
+                    data-bs-dismiss="offcanvas"
+                  >
+                    Logout
+                  </NavLink>
+                </li>
+              </>
+            )}
+          </ul>
+        </div>
+      </div>
     </>
   );
 };

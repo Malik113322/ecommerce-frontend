@@ -67,3 +67,19 @@ a:hover {
 #card-number{
   opacity: 0.5;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-section {
+  background: linear-gradient(135deg, #f9f9f9, #f0f4ff);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

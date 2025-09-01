@@ -7,6 +7,9 @@ import { Authprovider } from "./context/auth";
 import "antd/dist/reset.css";
 import { SearchProvider } from "./context/searchProduct";
 import { CartProvider } from "./context/cart";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

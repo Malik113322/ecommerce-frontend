@@ -1,104 +1,114 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout/Layout";
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import { useCart } from "../context/cart";
-import toast from 'react-hot-toast';
-
+import toast from "react-hot-toast";
 
 const ProductDetails = () => {
-    const [product, setProduct] = useState([]);
-    const [similarProduct, setSimilarProduct] = useState([]);
-    const [cart, setCart] = useCart();
+  const [product, setProduct] = useState([]);
+  const [similarProduct, setSimilarProduct] = useState([]);
+  const [cart, setCart] = useCart();
 
+  const params = useParams();
 
-    const params = useParams();
+  useEffect(() => {
+    if (params.slug) getProductDetails();
+  }, [params.slug]);
 
-    useEffect(() => {
-        if (params.slug) getProductDetails();
-    }, [params.slug])
-
-    const getProductDetails = async () => {
-        try {
-            const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/single-product/${params.slug}`);
-            setProduct(data.product);
-            // console.log(data.product[0]);
-            // console.log(data.product[0]._id, data.product[0].category)
-            getSimilarProducts(data.product[0]._id, data.product[0].category);
-            // console.log(data.product[0]._id, data.product[0].category)
-        } catch (error) {
-            console.log(error)
-        }
+  const getProductDetails = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_URL}/api/v1/product/single-product/${params.slug}`
+      );
+      setProduct(data.product);
+      getSimilarProducts(data.product[0]._id, data.product[0].category);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    // get similar products 
-    const getSimilarProducts = async (pid, cid) => {
-        try {
-            const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/similar-products/${pid}/${cid}`);
-            setSimilarProduct(data);
-        } catch (error) {
-            console.log(error)
-        }
+  const getSimilarProducts = async (pid, cid) => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_URL}/api/v1/product/similar-products/${pid}/${cid}`
+      );
+      setSimilarProduct(data);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    return (
-
-        <Layout title={"Product Details"}>
-            <div className='container-fluid m-3 p-3 mb-5'>
-                {
-                    product.map((p) => (
-
-                        <div key={p._id} className='row  m-5'>
-                            <div className='col-md-4 mb-5 m-5'>
-
-                                <img src={p.image} alt='product' width={"300px"} height={"300px"} />
-                            </div>
-
-                            <div className='col-md-6 mb-5 border-start px-5'>
-                                <h4>Name : {p.name}</h4>
-                                <h4>Price : ${p.price}</h4>
-                                <h4 className='mb-5'>Description: {p.description}</h4>
-                                <button className='btn btn-primary px-4' onClick={
-                                    () => {
-                                        setCart([...cart, p]); toast.success("Added To Cart Successfully");
-                                        localStorage.setItem("cart", JSON.stringify([...cart, p]))
-                                    }
-
-                                }>Add to Cart</button>
-
-                            </div>
-                        </div>
-                    ))
-                }
-
-                {
-                    similarProduct.length ? (
-
-                        <div className='mt-5'>
-                            <h1> Similar Products</h1>
-                            {
-                                similarProduct.map((p) => (
-                                    <div key={p._id} className='row border-bottom m-5'>
-                                        <div className='col-md-4 border-end m-5  '>
-                                            <img className='img img-responsive m-5' src={p.image} alt='similar' width="200px" height="200px" />
-                                        </div>
-                                        <div className='col-md-6  m-5'>
-                                            <h5>Name: {p.name}</h5>
-                                            <h5>Price: {p.price}</h5>
-                                            <h5>Description: {p.description}</h5>
-                                        </div>
-                                    </div>
-                                ))
-                            }
-                        </div>
-                    ) : "NOT ANY SIMILAR PRODUCTS"
-                }
-
-
+  return (
+    <Layout title={"Product Details"}>
+      <div className="container py-4">
+        {product.map((p) => (
+          <div
+            key={p._id}
+            className="row g-4 align-items-center bg-white shadow rounded-3 p-4 mb-5"
+          >
+            {/* Product Image */}
+            <div className="col-md-5 text-center">
+              <img
+                src={p.image}
+                alt={p.name}
+                className="img-fluid rounded shadow-sm"
+                style={{ maxHeight: "350px", objectFit: "contain" }}
+              />
             </div>
-        </Layout>
 
-    )
-}
+            {/* Product Info */}
+            <div className="col-md-7">
+              <h2 className="fw-bold mb-3">{p.name}</h2>
+              <h4 className="text-success fw-semibold mb-3">₹{p.price}</h4>
+              <p className="text-muted mb-4">{p.description}</p>
+
+              <button
+                className="btn btn-lg btn-success rounded-pill px-4 shadow-sm"
+                onClick={() => {
+                  setCart([...cart, p]);
+                  toast.success("Added to Cart Successfully");
+                  localStorage.setItem("cart", JSON.stringify([...cart, p]));
+                }}
+              >
+                🛒 Add to Cart
+              </button>
+            </div>
+          </div>
+        ))}
+
+        {/* Similar Products */}
+        <div className="mt-5">
+          <h3 className="fw-bold mb-4">Similar Products</h3>
+          {similarProduct.length ? (
+            <div className="row g-4">
+              {similarProduct.map((sp) => (
+                <div key={sp._id} className="col-md-4">
+                  <div className="card h-100 shadow-sm border-0">
+                    <img
+                      src={sp.image}
+                      alt={sp.name}
+                      className="card-img-top p-3"
+                      style={{ height: "220px", objectFit: "contain" }}
+                    />
+                    <div className="card-body">
+                      <h5 className="card-title fw-semibold">{sp.name}</h5>
+                      <p className="card-text text-success fw-semibold">
+                        ₹{sp.price}
+                      </p>
+                      <p className="text-muted small">{sp.description}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-muted">No similar products available</p>
+          )}
+        </div>
+      </div>
+    </Layout>
+  );
+};
 
 export default ProductDetails;
