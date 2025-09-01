@@ -5,7 +5,6 @@ import { Checkbox, Radio } from "antd";
 import { Price } from "../components/Layout/Price";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/cart";
-import toast from "react-hot-toast";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -140,7 +139,6 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Mobile Filters */}
               {/* Mobile Filters */}
               <div className="d-block d-lg-none w-100 mt-3">
   <h6 className="fw-bold px-2">Categories</h6>
@@ -179,7 +177,7 @@ const Home = () => {
               <div className="row">
                 {paginatedData.map((p) => (
                   <div key={p._id} className="col-6 col-md-4 col-lg-3 mb-4">
-                    <div className="card h-100 shadow border-0 rounded-4 hover-card">
+                    <div className="card h-100 shadow border-0 rounded-4 hover-card ">
   {/* Product Image */}
   <div className="d-flex justify-content-center align-items-center p-3">
     <img
@@ -193,7 +191,7 @@ const Home = () => {
   {/* Card Body */}
   <div className="card-body d-flex flex-column">
     {/* Product Name */}
-    <h6 className="fw-bold text-center">{p.name}</h6>
+    <p className="text-center">{p.name}</p>
 
     {/* Responsive Description */}
     <p className="text-muted small  d-block d-lg-none">
