@@ -57,6 +57,21 @@ const MobileMenu = ({ auth, handleLogout, category }) => {
               <ul className="list-unstyled ms-3">
               </ul>
             </li>
+            <li className="nav-item">
+              <Link to="/about" className="nav-link" onClick={closeMenu}>About</Link>
+              <ul className="list-unstyled ms-3">
+              </ul>
+            </li>
+            <li className="nav-item">
+              <Link to="/contact" className="nav-link" onClick={closeMenu}>Contact</Link>
+              <ul className="list-unstyled ms-3">
+              </ul>
+            </li>
+            <li className="nav-item">
+              <Link to="/policy" className="nav-link" onClick={closeMenu}>Policy</Link>
+              <ul className="list-unstyled ms-3">
+              </ul>
+            </li>
 
             {!auth.user ? (
               <>
