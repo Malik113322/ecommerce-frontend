@@ -194,14 +194,19 @@ const Home = () => {
     <p className="text-center">{p.name}</p>
 
     {/* Responsive Description */}
-    <p className="text-muted small  d-block d-lg-none">
-      {p.description.length > 40
-        ? p.description.substring(0, 40) + "..."
-        : p.description}
-    </p>
-    <p className="text-muted small  d-none d-lg-block">
-      {p.description}
-    </p>
+    <p
+  className="text-muted small"
+  style={{
+    display: '-webkit-box',
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    WebkitLineClamp: window.innerWidth < 992 ? 1 : 3, // 1 line on mobile, 3 on desktop
+  }}
+>
+  {p.description}
+</p>
+
 
     {/* Price */}
     <p className="fw-bold text-success text-center fs-5 mb-3">
