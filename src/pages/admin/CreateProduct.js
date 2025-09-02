@@ -194,7 +194,7 @@ const CreateProduct = () => {
         className="btn btn-success btn-lg rounded-3 shadow-sm"
         onClick={createProduct}
       >
-        🚀 Submit Product
+        🚀 Submit
       </button>
     </div>
   </div>

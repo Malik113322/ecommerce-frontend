@@ -4,7 +4,7 @@ import Adminmenu from "../../components/Layout/Adminmenu";
 import axios from "axios";
 import toast from "react-hot-toast";
 import CategoryForm from "../../Form/CategoryForm";
-import { Modal } from "antd";
+import { Button, Modal, Popconfirm } from "antd";
 
 const CreateCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -135,12 +135,18 @@ const CreateCategory = () => {
                           </button>
                         </td>
                         <td>
-                          <button
-                            className="btn btn-sm btn-outline-danger"
-                            onClick={() => handleCategoryDelete(c._id)}
+                          <Popconfirm
+                            title="Are you sure you want to delete this category?"
+                            onConfirm={() => handleCategoryDelete(c._id)}
+                            okText="Yes"
+                            cancelText="No"
+                            okButtonProps={{ danger: true }} // ✅ makes the button red
                           >
-                            🗑️ Delete
-                          </button>
+                            <Button type="default" danger size="small" icon="🗑️">
+                              Delete
+                            </Button>
+                          </Popconfirm>
+
                         </td>
                       </tr>
                     ))}

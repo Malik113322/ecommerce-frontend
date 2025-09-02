@@ -60,7 +60,7 @@ const ProductDetails = () => {
             {/* Product Info */}
             <div className="col-md-7">
               <h4 className="fw-bold mb-3">{p.name}</h4>
-              <h4 className="text-success fw-semibold mb-3">₹{p.price}</h4>
+              <h4 className="text-success fw-semibold mb-3">${p.price}</h4>
               <p className="text-muted mb-4">{p.description}</p>
 
               <button
@@ -86,7 +86,7 @@ const ProductDetails = () => {
       style={{ gap: "1rem" }}
     >
       {similarProduct.map((sp) => (
-        <div
+        <div key={sp._id}
   className="card shadow-sm border-0 d-flex flex-column justify-content-between"
   style={{ minWidth: "220px", maxWidth: "220px", height: "320px" }}
 >
@@ -101,7 +101,7 @@ const ProductDetails = () => {
   <div className="card-body d-flex flex-column justify-content-between">
     <div>
       <p className="card-title fw-semibold mb-1">{sp.name}</p>
-      <p className="card-text text-success fw-semibold mb-3">₹{sp.price}</p>
+      <p className="card-text text-success fw-semibold mb-3">${sp.price}</p>
     </div>
 
     <button
