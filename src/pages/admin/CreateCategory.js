@@ -112,7 +112,7 @@ const CreateCategory = () => {
                 <table className="table table-hover align-middle text-center">
                   <thead className="table-dark">
                     <tr>
-                      <th scope="col">Category Name</th>
+                      <th scope="col">Category</th>
                       <th scope="col" colSpan="2">
                         Actions
                       </th>

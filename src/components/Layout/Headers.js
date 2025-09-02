@@ -160,7 +160,6 @@ const Headers = () => {
         </div>
       </div>
 
-      {/* Offcanvas Menu */}
       
     </>
   );
