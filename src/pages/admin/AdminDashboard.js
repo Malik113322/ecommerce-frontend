@@ -7,7 +7,7 @@ const AdminDashboard = () => {
   const [auth] = useAuth();
   return (
     <Layout title={"Admin Panel"}>
-      <div className="container-fluid p-3 m-3">
+      <div className="container-fluid ">
         <div className="row">
           <div className="col-md-3">
             <Adminmenu />
