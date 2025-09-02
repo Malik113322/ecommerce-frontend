@@ -4,6 +4,8 @@ import Layout from "../../components/Layout/Layout";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Button, Popconfirm } from "antd";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -78,20 +80,34 @@ const Products = () => {
                         </p>
                         <h6 className="text-success mb-3">${p.price}</h6>
                         <div className="mt-auto d-flex justify-content-between">
-                          <button
-                            className="btn btn-sm btn-outline-primary"
-                            onClick={() =>
-                              navigate(`/dashboard/admin/update-product/${p.slug}`)
-                            }
+                          <Button
+                            type="default"              // default type (neutral background)
+                            size="small"                // small size like btn-sm
+                            style={{
+                              borderColor: "#0d6efd",  // Bootstrap primary color
+                              color: "#0d6efd",
+                              backgroundColor: "transparent",
+                            }}
+                            icon={<EditOutlined style={{ marginRight: 4 }} />} // like me-1
                           >
-                            <i className="bi bi-pencil-square me-1"></i> Edit
-                          </button>
-                          <button
-                            className="btn btn-sm btn-outline-danger"
-                            onClick={() => deleteHandle(p._id)}
+                            Edit
+                          </Button>
+                          <Popconfirm
+                            title="Are you sure you want to delete this item?"
+                            onConfirm={() => deleteHandle(p._id)}
+                            okText="Yes"
+                            cancelText="No"
+                            okButtonProps={{ danger: true }} // makes confirm button red
                           >
-                            <i className="bi bi-trash me-1"></i> Delete
-                          </button>
+                            <Button
+                              type="default"
+                              danger
+                              size="small"
+                              icon={<DeleteOutlined />}
+                            >
+                              Delete
+                            </Button>
+                          </Popconfirm>
                         </div>
                       </div>
                     </div>
@@ -100,7 +116,7 @@ const Products = () => {
               </div>
             ) : (
               <div className="alert alert-warning text-center">
-               loading...
+                loading...
               </div>
             )}
           </div>

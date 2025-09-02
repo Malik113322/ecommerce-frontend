@@ -4,7 +4,7 @@ import { FaPlusCircle, FaBoxOpen, FaUsers, FaThList } from "react-icons/fa";
 
 const Adminmenu = () => {
   return (
-    <div className="bg-white shadow rounded p-3">
+    <div className="bg-white shadow rounded p-3 mb-2">
       <h5 className="fw-bold text-center mb-4">⚙️ Admin Panel</h5>
 
       <div className="list-group">

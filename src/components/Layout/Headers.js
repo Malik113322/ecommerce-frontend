@@ -9,6 +9,7 @@ import { AiFillHome, AiOutlineUser } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { BsCart3 } from "react-icons/bs";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import MobileMenu from "./MobileMenu";
 
 const Headers = () => {
   const [auth, setAuth] = useAuth();
@@ -37,15 +38,7 @@ const Headers = () => {
 
           {/* Mobile: Hamburger + Brand + Cart */}
           <div className="d-flex align-items-center d-lg-none w-100 justify-content-between">
-            <button
-              className="btn text-white"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#mobileMenu"
-              aria-controls="mobileMenu"
-            >
-              <HiOutlineMenu size={26} />
-            </button>
+           <MobileMenu auth={auth} handleLogout={handleLogout} category={category} />
 
             <NavLink to="/" className="navbar-brand text-white fw-bold fs-2 ">
               🛒 eCommerce
@@ -61,6 +54,9 @@ const Headers = () => {
           {/* Desktop Navbar */}
           <div className="d-none d-lg-flex align-items-center w-100 justify-content-between">
             {/* Left links */}
+             <NavLink to="/" className="navbar-brand text-white fw-bold fs-3 d-flex mb-2 ">
+              🛒 eCommerce
+            </NavLink>
             <ul className="navbar-nav d-flex align-items-center gap-3">
               <li className="nav-item">
                 <NavLink to="/" className="nav-link text-white">Home</NavLink>
@@ -165,48 +161,7 @@ const Headers = () => {
       </div>
 
       {/* Offcanvas Menu */}
-      <div className="offcanvas offcanvas-start" tabIndex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
-        <div className="offcanvas-header">
-          <h5 className="offcanvas-title" id="mobileMenuLabel">Menu</h5>
-          <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div className="offcanvas-body">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link to="/" className="nav-link">Home</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/categories" className="nav-link">Categories</Link>
-              <ul className="list-unstyled ms-3">
-                {/* {category.map((c) => (
-                  <li key={c._id}>
-                    <Link to={`/category/${c.slug}`} className="nav-link">{c.name}</Link>
-                  </li>
-                ))} */}
-              </ul>
-            </li>
-            {!auth.user ? (
-              <>
-                <li className="nav-item">
-                  <NavLink to="/register" className="nav-link">Register</NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/login" className="nav-link">Login</NavLink>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="nav-item">
-                  <NavLink to={`/dashboard/${auth.user.role === 1 ? "admin" : "user"}`} className="nav-link">Dashboard</NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/login" className="nav-link" onClick={handleLogout} >Logout</NavLink>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
-      </div>
+      
     </>
   );
 };
