@@ -8,7 +8,7 @@ const Dashboard = () => {
 
   return (
     <Layout title={"Dashboard"}>
-      <div className="container-fluid p-3 m-3">
+      <div className=" d-flex justify-content-center align-items-center">
         <div className="row">
           <div className="col-md-3">
             <UserMenu />

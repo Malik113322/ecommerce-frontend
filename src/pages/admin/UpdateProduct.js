@@ -1,195 +1,215 @@
-import React, { useEffect, useState } from 'react';
-import Layout from '../../components/Layout/Layout';
+import React, { useEffect, useState } from "react";
+import Layout from "../../components/Layout/Layout";
 import Adminmenu from "../../components/Layout/Adminmenu";
 import { Select } from "antd";
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+
 const { Option } = Select;
 
 const UpdateProduct = () => {
-    const [categories, setCategories] = useState([]);
-    const [category, setCategory] = useState("");
-    const [image, setImage] = useState("");
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
-    const [quantity, setQuantity] = useState("");
-    const [shipping, setShipping] = useState("");
-    const [id, setId] = useState("");
-    const params = useParams();
-    const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState("");
+  const [image, setImage] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [shipping, setShipping] = useState("");
+  const [id, setId] = useState("");
+  const params = useParams();
+  const navigate = useNavigate();
 
-    // get single product 
-    const getProduct = async () => {
-        try {
-            const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/single-product/${params.slug}`);
-            if (data.success) {
-
-                setCategory(data.product[0].category);
-                setName(data.product[0].name);
-                setDescription(data.product[0].description);
-                setPrice(data.product[0].price);
-                setQuantity(data.product[0].quantity);
-                setShipping(data.product[0].shipping);
-                setImage(data.product[0].image);
-                setId(data.product[0]._id);
-            }
-
-        } catch (error) {
-            console.log(error)
-        }
+  // get single product
+  const getProduct = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_URL}/api/v1/product/single-product/${params.slug}`
+      );
+      if (data.success) {
+        const p = data.product[0];
+        setCategory(p.category);
+        setName(p.name);
+        setDescription(p.description);
+        setPrice(p.price);
+        setQuantity(p.quantity);
+        setShipping(p.shipping);
+        setImage(p.image);
+        setId(p._id);
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    useEffect(() => {
-        getProduct();
-        // eslint-disable-next-line
-    }, [])
+  useEffect(() => {
+    getProduct();
+    // eslint-disable-next-line
+  }, []);
 
-    const getCategories = async () => {
-        try {
-            const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/category/categories`);
-            if (data.success) {
-                setCategories(data.category)
-            }
-        } catch (error) {
-            console.log(error)
-        }
+  const getCategories = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_URL}/api/v1/category/categories`
+      );
+      if (data.success) {
+        setCategories(data.category);
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
 
+  useEffect(() => {
+    getCategories();
+  }, []);
 
-
-    useEffect(() => {
-        getCategories();
-    }, [])
-
-    // update product details 
-    const updateHandle = async (e) => {
-        e.preventDefault();
-        try {
-            const { data } = await axios.put(`${process.env.REACT_APP_URL}/api/v1/product/update-product/${id}`, {
-                name,
-                description,
-                price,
-                shipping,
-                quantity,
-                category
-            });
-            if (data.success) {
-                toast.success("Successfully Update ");
-                setTimeout(() => {
-                    navigate("/dashboard/admin/products")
-                }, 2000);
-            }
-
-
-        } catch (error) {
-            console.log(error)
-        }
+  // update product
+  const updateHandle = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_URL}/api/v1/product/update-product/${id}`,
+        { name, description, price, shipping, quantity, category }
+      );
+      if (data.success) {
+        toast.success("Product updated successfully!");
+        setTimeout(() => {
+          navigate("/dashboard/admin/products");
+        }, 1500);
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    return (
-        <Layout title={'Product update page'}>
-            <div className='container-fluid m-3 p-3'>
-                <div className='row'>
-                    <div className='col-md-3'>
-                        <Adminmenu />
-                    </div>
-                    <div className='col-md-9'>
-                        <h1> Product Update</h1>
-                        <div className='mb-3 col-md-9'>
-                            <form>
-                                <Select
-                                    size='large'
-                                    showSearch
-                                    className='form-select mb-3'
-                                    bordered={false}
-                                    onChange={(value) => setCategory(value)}
-                                    placeholder="select category"
-                                    value={category}
-                                >
-                                    {
-                                        categories.map((c) => (
-                                            <Option key={c._id} value={c._id}
-                                            >
-                                                {c.name}
-                                            </Option>
-                                        ))
-                                    }
-                                </Select>
+  return (
+    <Layout title="Update Product">
+      <div className="container-fluid py-4">
+        <div className="row">
+          <div className="col-md-3">
+            <Adminmenu />
+          </div>
+          <div className="col-md-9">
+            <div className="card shadow-sm border-0 rounded-3 p-4">
+              <h3 className="fw-bold text-center text-danger border-bottom pb-2 mb-4">
+                Update Product
+              </h3>
 
-                                <div className='mb-3 text-center'>
-                                    <label className='btn  col-md-9'>
-                                        {image ? image.name : "UPLOAD"}
-                                        <img src={image} alt={image} width={"300px"} height={"300px"} />
-
-                                    </label>
-                                </div>
-
-                                <div className='mb-3'>
-                                    <input
-                                        type="text"
-                                        className='form-select'
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        placeholder='enter name'
-                                        required
-                                    />
-                                </div>
-                                <div className='mb-3'>
-                                    <input
-                                        type='text'
-                                        className='form-select'
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
-                                        placeholder='enter description'
-                                        required
-                                    />
-                                </div>
-
-                                <div className='mb-3'>
-                                    <input
-                                        type='text'
-                                        className='form-select'
-                                        value={price}
-                                        onChange={(e) => setPrice(e.target.value)}
-                                        placeholder='enter price'
-                                    />
-                                </div>
-
-                                <div className='mb-3'>
-                                    <input
-                                        type='text'
-                                        className='form-select'
-                                        value={quantity}
-                                        onChange={(e) => setQuantity(e.target.value)}
-                                        placeholder='enter quantity'
-                                        required
-                                    />
-                                </div>
-
-                                <div className='mb-3'>
-                                    <Select
-                                        showSearch
-                                        size='large'
-                                        className='form-select'
-                                        bordered={false}
-                                        onChange={(value) => setShipping(value)}
-                                        placeholder="shipping"
-                                        value={shipping ? "Yes" : "No"}
-                                    >
-                                        <Option value="0"> No</Option>
-                                        <Option value="1">Yes</Option>
-                                    </Select>
-                                </div>
-                                <button className='btn btn-primary' type='submit' onClick={updateHandle}> Update Product</button>
-                            </form>
-                        </div>
-                    </div>
+              <form onSubmit={updateHandle}>
+                {/* Category */}
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">Category</label>
+                  <Select
+                    size="large"
+                    showSearch
+                    className="w-100"
+                    bordered
+                    onChange={(value) => setCategory(value)}
+                    value={category}
+                    placeholder="Select category"
+                  >
+                    {categories.map((c) => (
+                      <Option key={c._id} value={c._id}>
+                        {c.name}
+                      </Option>
+                    ))}
+                  </Select>
                 </div>
+
+                {/* Image */}
+                <div className="mb-3 text-center">
+                  <label className="form-label fw-semibold d-block">
+                    Product Image
+                  </label>
+                  {image && (
+                    <img
+                      src={image}
+                      alt="product"
+                      className="img-fluid rounded mb-2"
+                      style={{ maxHeight: "200px", objectFit: "contain" }}
+                    />
+                  )}
+                 
+                </div>
+
+                {/* Name */}
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter product name"
+                    required
+                  />
+                </div>
+
+                {/* Description */}
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">Description</label>
+                  <textarea
+                    className="form-control"
+                    rows="3"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Enter product description"
+                  ></textarea>
+                </div>
+
+                {/* Price */}
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">Price</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    placeholder="Enter price"
+                  />
+                </div>
+
+                {/* Quantity */}
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">Quantity</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    placeholder="Enter quantity"
+                  />
+                </div>
+
+                {/* Shipping */}
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">Shipping</label>
+                  <Select
+                    size="large"
+                    className="w-100"
+                    bordered
+                    onChange={(value) => setShipping(value)}
+                    value={shipping ? "1" : "0"}
+                  >
+                    <Option value="0">No</Option>
+                    <Option value="1">Yes</Option>
+                  </Select>
+                </div>
+
+                <div className="d-grid">
+                  <button type="submit" className="btn btn-primary btn-lg">
+                    <i className="bi bi-check-circle me-2"></i> Update Product
+                  </button>
+                </div>
+              </form>
             </div>
-        </Layout >
-    )
-}
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
+};
 
 export default UpdateProduct;

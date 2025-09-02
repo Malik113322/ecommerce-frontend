@@ -1,29 +1,41 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaCheckCircle } from "react-icons/fa"; // Success icon
+import Layout from "../components/Layout/Layout";
 
 const Success = () => {
   return (
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-md-5">
-          <div className="message-box _success">
-            {/* <i className="fa fa-check-circle" aria-hidden="true" /> */}
-            <h2>✅</h2>
-            <h2> Your payment was successful </h2>
-            <p>
-              {" "}
-              Thank you for your payment. we will <br />
-              be in contact with more details shortly{" "}
-            </p>
-
-            <Link to={'/'}>
-              <button className="btn btn-primary">Back to home page</button>
-            </Link>
+    <Layout title={'Payment'}>
+    <div className="container d-flex justify-content-center align-items-center vh-100">
+      <div
+        className="card shadow-lg border-0 text-center p-4"
+        style={{ borderRadius: "20px", maxWidth: "450px", width: "100%" }}
+      >
+        <div className="card-body">
+          {/* Success Icon */}
+          <div className="mb-3">
+            <FaCheckCircle size={90} className="text-success" />
           </div>
+
+          {/* Title */}
+          <h2 className="fw-bold text-success">Payment Successful!</h2>
+
+          {/* Description */}
+          <p className="text-muted mt-3 mb-4">
+            Thank you for your payment. <br />
+            We’ll contact you with more details shortly.
+          </p>
+
+          {/* Button */}
+          <Link to="/">
+            <button className="btn btn-success btn-lg px-4 rounded-pill shadow-sm">
+              Back to Home
+            </button>
+          </Link>
         </div>
       </div>
-      <hr />
     </div>
+    </Layout>
   );
 };
 

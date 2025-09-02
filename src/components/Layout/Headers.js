@@ -1,5 +1,3 @@
-import React from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import SearchInput from "../../Form/SearchInput";
@@ -10,6 +8,7 @@ import { HiOutlineMenu } from "react-icons/hi";
 import { AiFillHome, AiOutlineUser } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { BsCart3 } from "react-icons/bs";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const Headers = () => {
   const [auth, setAuth] = useAuth();
@@ -129,7 +128,7 @@ const Headers = () => {
               <li className="nav-item">
                 <NavLink to="/cart" className="nav-link text-white position-relative">
                   <Badge count={cart.length} showZero>
-                    <BsCart3 size={24} />
+                    <BsCart3 size={24}/>
                   </Badge>
                 </NavLink>
               </li>
@@ -146,7 +145,7 @@ const Headers = () => {
             <div className="small">Home</div>
           </NavLink>
 
-          <NavLink to="/category" className="text-center text-dark">
+          <NavLink to="/categories" className="text-center text-dark">
             <BiCategory size={24} />
             <div className="small">Category</div>
           </NavLink>
@@ -174,34 +173,34 @@ const Headers = () => {
         <div className="offcanvas-body">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <NavLink to="/" className="nav-link" data-bs-dismiss="offcanvas">Home</NavLink>
+              <Link to="/" className="nav-link">Home</Link>
             </li>
             <li className="nav-item">
-              <Link to="/category" className="nav-link" data-bs-dismiss="offcanvas">Categories</Link>
+              <Link to="/categories" className="nav-link">Categories</Link>
               <ul className="list-unstyled ms-3">
-                {category.map((c) => (
+                {/* {category.map((c) => (
                   <li key={c._id}>
-                    <Link to={`/category/${c.slug}`} className="nav-link" data-bs-dismiss="offcanvas">{c.name}</Link>
+                    <Link to={`/category/${c.slug}`} className="nav-link">{c.name}</Link>
                   </li>
-                ))}
+                ))} */}
               </ul>
             </li>
             {!auth.user ? (
               <>
                 <li className="nav-item">
-                  <NavLink to="/register" className="nav-link" data-bs-dismiss="offcanvas">Register</NavLink>
+                  <NavLink to="/register" className="nav-link">Register</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to="/login" className="nav-link" data-bs-dismiss="offcanvas">Login</NavLink>
+                  <NavLink to="/login" className="nav-link">Login</NavLink>
                 </li>
               </>
             ) : (
               <>
                 <li className="nav-item">
-                  <NavLink to={`/dashboard/${auth.user.role === 1 ? "admin" : "user"}`} className="nav-link" data-bs-dismiss="offcanvas">Dashboard</NavLink>
+                  <NavLink to={`/dashboard/${auth.user.role === 1 ? "admin" : "user"}`} className="nav-link">Dashboard</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to="/login" className="nav-link" onClick={handleLogout} data-bs-dismiss="offcanvas">Logout</NavLink>
+                  <NavLink to="/login" className="nav-link" onClick={handleLogout} >Logout</NavLink>
                 </li>
               </>
             )}

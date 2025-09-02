@@ -1,20 +1,25 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 const UserMenu = () => {
-    return (
-        <div>
-            <div className="list-group text-center">
-                {/* <h1 className='text-center'>User Menu</h1> */}
-                <NavLink to={"/dashboard/user/profile"} className="list-group-item list-group-item-action" >
-                    Profile
-                </NavLink>
-                <NavLink to={"/dashboard/user/orders"} className="list-group-item list-group-item-action" >
-                    Orders</NavLink>
-            </div>
+  return (
+    <div className="d-flex justify-content-center">
+      <div className="list-group w-100" style={{ maxWidth: "300px" }}>
+        <NavLink
+          to={"/dashboard/user/profile"}
+          className="list-group-item list-group-item-action text-center"
+        >
+          Profile
+        </NavLink>
+        <NavLink
+          to={"/dashboard/user/orders"}
+          className="list-group-item list-group-item-action text-center"
+        >
+          Orders
+        </NavLink>
+      </div>
+    </div>
+  );
+};
 
-        </div>
-    )
-}
-
-export default UserMenu
+export default UserMenu;

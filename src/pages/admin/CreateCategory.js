@@ -15,117 +15,157 @@ const CreateCategory = () => {
 
   const getCategories = async () => {
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/category/categories`);
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_URL}/api/v1/category/categories`
+      );
       if (data.success) {
         setCategories(data.category);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     getCategories();
-    // eslint-disable-next-line 
+    // eslint-disable-next-line
   }, []);
 
-
-  // create category 
+  // create category
   const handleCreateCategory = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(`${process.env.REACT_APP_URL}/api/v1/category/create-category`, { name });
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_URL}/api/v1/category/create-category`,
+        { name }
+      );
       if (data.success) {
-        toast.success(`${name} category created`)
+        toast.success(`${name} category created`);
         setName("");
         getCategories();
       }
     } catch (error) {
-      toast.error("category not created")
+      toast.error("Category not created");
     }
-  }
+  };
 
-  // update category 
+  // update category
   const handleCategoryUpdate = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.put(`${process.env.REACT_APP_URL}/api/v1/category/update-category/${selected._id}`, { name: updateName });
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_URL}/api/v1/category/update-category/${selected._id}`,
+        { name: updateName }
+      );
       if (data.success) {
-        toast.success("successfully updated");
+        toast.success("Successfully updated");
         setVisible(false);
         getCategories();
       }
     } catch (error) {
-      toast.error("category not updated")
+      toast.error("Category not updated");
     }
-  }
+  };
 
-  // delete category 
-
+  // delete category
   const handleCategoryDelete = async (id) => {
     try {
-      const { data } = await axios.delete(`${process.env.REACT_APP_URL}/api/v1/category/delete-category/${id}`);
+      const { data } = await axios.delete(
+        `${process.env.REACT_APP_URL}/api/v1/category/delete-category/${id}`
+      );
       if (data.success) {
-        toast.success("category deleted");
+        toast.success("Category deleted");
         getCategories();
       }
     } catch (error) {
-      toast.error("category not deleted");
-    };
+      toast.error("Category not deleted");
+    }
   };
-
-  // getting categories 
 
   return (
     <Layout title={"Dashboard - Create Category"}>
-      <div className="container-fluid p-3 m-3">
+      <div className="container-fluid py-4">
         <div className="row">
+          {/* Left Menu */}
           <div className="col-md-3">
             <Adminmenu />
           </div>
+
+          {/* Main Content */}
           <div className="col-md-9">
-            <h1 className="p-3 m-3">MANAGE CATEGORY</h1>
-            <div className="w-50">
+            <div className="card shadow border-0 p-4">
+              <h2 className="mb-4 text-center fw-bold text-danger">
+                Manage Categories
+              </h2>
 
-              <CategoryForm handleSubmit={handleCreateCategory}
-                value={name}
-                setValue={setName} />
-            </div>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  categories.map((c) => (
-                    <>
+              {/* Create Form */}
+              <div className="mb-4">
+                <CategoryForm
+                  handleSubmit={handleCreateCategory}
+                  value={name}
+                  setValue={setName}
+                />
+              </div>
+
+              {/* Categories Table */}
+              <div className="table-responsive">
+                <table className="table table-hover align-middle text-center">
+                  <thead className="table-dark">
+                    <tr>
+                      <th scope="col">Category Name</th>
+                      <th scope="col" colSpan="2">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {categories.map((c) => (
                       <tr key={c._id}>
-                        <td><h4>{c.name}</h4></td>
-                        <td><button className="btn btn-primary" onClick={() => {
-                          setVisible(true); setUpdateName(c.name); setSelected(c)
-                        }}>EDIT</button></td>
-                        <td><button className="btn btn-danger" onClick={() => handleCategoryDelete(c._id)}>DELETE</button></td>
-
+                        <td className="fw-semibold">{c.name}</td>
+                        <td>
+                          <button
+                            className="btn btn-sm btn-outline-primary"
+                            onClick={() => {
+                              setVisible(true);
+                              setUpdateName(c.name);
+                              setSelected(c);
+                            }}
+                          >
+                            ✏️ Edit
+                          </button>
+                        </td>
+                        <td>
+                          <button
+                            className="btn btn-sm btn-outline-danger"
+                            onClick={() => handleCategoryDelete(c._id)}
+                          >
+                            🗑️ Delete
+                          </button>
+                        </td>
                       </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
-                    </>
-                  ))
-                }
-
-
-              </tbody>
-            </table>
+              {/* Modal */}
+              <Modal
+                onCancel={() => setVisible(false)}
+                footer={null}
+                open={visible}
+              >
+                <CategoryForm
+                  handleSubmit={handleCategoryUpdate}
+                  value={updateName}
+                  setValue={setUpdateName}
+                />
+              </Modal>
+            </div>
           </div>
-          <Modal onCancel={() => setVisible(false)} footer={null} open={visible}>
-            <CategoryForm handleSubmit={handleCategoryUpdate} value={updateName} setValue={setUpdateName} />
-          </Modal>
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
 export default CreateCategory;

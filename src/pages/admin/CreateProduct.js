@@ -64,86 +64,142 @@ const CreateProduct = () => {
 
   return (
     <Layout title={"Dashboard - Create Product"}>
-      <div className="container-fluid m-3 p-3">
+      <div className="container-fluid m-3 p-3 mx-2">
         <div className="row">
           <div className="col-md-3">
             <Adminmenu />
           </div>
-          <div className="col-md-9">
-            <h1>Create Product</h1>
-            <div className="mb-3 col-md-9">
+         <div className="col-md-9">
+  <div className="card shadow-lg border-0 rounded-4 p-4">
+    <h2 className="fw-bold text-center mb-4">✨ Create Product</h2>
 
-              <Select
-                bordered={false}
-                placeholder="select category"
-                showSearch
-                onChange={(value) => { setCategory(value) }}
-                size="large"
-                className="form-select"
+    {/* Category */}
+    <div className="mb-3">
+      <label className="form-label fw-semibold">Category</label>
+      <Select
+        bordered={true}
+        placeholder="Select category"
+        showSearch
+        onChange={(value) => setCategory(value)}
+        size="large"
+        className="w-100"
+      >
+        {categories.map((c) => (
+          <Option key={c._id} value={c._id}>
+            {c.name}
+          </Option>
+        ))}
+      </Select>
+    </div>
 
-              >
-                {
-                  categories.map((c) => (
-                    <Option key={c._id} value={c._id} >
-                      {c.name}
-                    </Option>
-                  ))
-                }
-              </Select>
-            </div>
-            <div className="mb-3">
-              <label className="btn btn-outline-secondary col-md-9">
-                {image ? image.name : "UPLAOD IMAGE"}
-                <input type="file" name="image" className="form-select" accept="image/*" onChange={(e) => setImage(e.target.files[0])}
-                  hidden
-                  required
-                />
-              </label>
-            </div>
-            <div className="mb-3 col-md-9">
-              {image && (
-                <div className="text-center">
-                  <img src={URL.createObjectURL(image)} alt="product" className="img img-responsive" height={"200px"} />
-                </div>
-              )}
-            </div>
-            <div className="mb-3 col-md-9">
-              <input type="text" className="form-select" placeholder="enter product name" value={name} onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3 col-md-9">
-              <input type="text" className="form-select" placeholder="enter product description" value={description} onChange={(e) => setDescription(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3 col-md-9">
-              <input type="text" className="form-select" placeholder="enter product price" value={price} onChange={(e) => setPrice(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3 col-md-9">
-              <input type="text" className="form-select" placeholder="enter product quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3 col-md-9">
-              <Select
-                bordered={false}
-                size="large"
-                className="form-select"
-                showSearch
-                onChange={(value) => setShipping(value)}
-                placeholder="shipping"
-              >
-                <Option value="0">No</Option>
-                <Option value="1">Yes</Option>
-              </Select>
-            </div>
-            <div className="mb-3">
-              <button type="submit" className="btn btn-primary" onClick={createProduct}>Submit</button>
-            </div>
-          </div>
+    {/* Image Upload */}
+    <div className="mb-3">
+      <label className="form-label fw-semibold">Upload Image</label>
+      <label className="btn btn-outline-primary w-100">
+        {image ? image.name : "📷 Choose Product Image"}
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          onChange={(e) => setImage(e.target.files[0])}
+          hidden
+          required
+        />
+      </label>
+    </div>
+
+    {/* Preview */}
+    {image && (
+      <div className="text-center mb-3">
+        <img
+          src={URL.createObjectURL(image)}
+          alt="product"
+          className="img-fluid rounded shadow"
+          height="200"
+        />
+      </div>
+    )}
+
+    {/* Name */}
+    <div className="mb-3">
+      <label className="form-label fw-semibold">Product Name</label>
+      <input
+        type="text"
+        className="form-control"
+        placeholder="Enter product name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
+    </div>
+
+    {/* Description */}
+    <div className="mb-3">
+      <label className="form-label fw-semibold">Description</label>
+      <textarea
+        className="form-control"
+        rows="3"
+        placeholder="Enter product description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        required
+      />
+    </div>
+
+    {/* Price */}
+    <div className="mb-3">
+      <label className="form-label fw-semibold">Price</label>
+      <input
+        type="number"
+        className="form-control"
+        placeholder="Enter product price"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        required
+      />
+    </div>
+
+    {/* Quantity */}
+    <div className="mb-3">
+      <label className="form-label fw-semibold">Quantity</label>
+      <input
+        type="number"
+        className="form-control"
+        placeholder="Enter product quantity"
+        value={quantity}
+        onChange={(e) => setQuantity(e.target.value)}
+        required
+      />
+    </div>
+
+    {/* Shipping */}
+    <div className="mb-3">
+      <label className="form-label fw-semibold">Shipping</label>
+      <Select
+        bordered={true}
+        size="large"
+        className="w-100"
+        onChange={(value) => setShipping(value)}
+        placeholder="Select shipping option"
+      >
+        <Option value="0">No</Option>
+        <Option value="1">Yes</Option>
+      </Select>
+    </div>
+
+    {/* Submit Button */}
+    <div className="d-grid">
+      <button
+        type="submit"
+        className="btn btn-success btn-lg rounded-3 shadow-sm"
+        onClick={createProduct}
+      >
+        🚀 Submit Product
+      </button>
+    </div>
+  </div>
+</div>
+
         </div>
       </div>
     </Layout>
