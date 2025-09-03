@@ -12,8 +12,8 @@ const CategoryProduct = () => {
     const getData = async () => {
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/category-product/${params.slug}`);
-            setCategory(data.category);
-            setProducts(data.product);
+             setCategory(data.category.name);
+            setProducts(data.products)
         } catch (error) {
             console.log(error)
         }
