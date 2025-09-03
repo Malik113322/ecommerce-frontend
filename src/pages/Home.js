@@ -181,7 +181,7 @@ const Home = () => {
               <div className="col-lg-2 d-none d-lg-block mt-4">
                 <h5 className="fw-bold">Categories</h5>
                 <div className="d-flex flex-column">
-                  {category && categories.map((c) => (
+                  {categories && categories.map((c) => (
                     <Checkbox
                       key={c._id}
                       onChange={(e) => handleFilter(e.target.checked, c._id)}
@@ -194,7 +194,7 @@ const Home = () => {
                 <div className="mt-4">
                   <h5 className="fw-bold">Price</h5>
                   <Radio.Group onChange={(e) => setRadio(e.target.value)}>
-                    {Price && Price.map((p) => (
+                    {Price.map((p) => (
                       <div key={p._id}>
                         <Radio value={p.array}>{p.name}</Radio>
                       </div>
@@ -225,7 +225,7 @@ const Home = () => {
                   </button>
 
                   <div className="d-flex flex-row flex-nowrap overflow-auto no-scrollbar">
-                    {category && categories.map((c) => (
+                    {categories && categories.map((c) => (
                       <button
                         key={c._id}
                         className="btn btn-outline-dark  rounded-3 px-4 py-1 me-1"
@@ -241,7 +241,7 @@ const Home = () => {
               {/* Products Grid */}
               <div className="col-lg-10 mt-3">
                 <div className="row">
-                  {paginatedData && paginatedData.map((p) => (
+                  {paginatedData.map((p) => (
                     <div key={p._id} className="col-6 col-md-4 col-lg-3 mb-4">
                       <div className="card h-100 shadow border-0 rounded-4 hover-card">
                         {/* Product Image */}
