@@ -13,9 +13,7 @@ const Categories = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_URL}/api/v1/category/categories`
       );
-      if (data.success) {
-        setCategories(data.category);
-      }
+       setCategories(data.categories)
     } catch (error) {
       console.log(error);
     }
