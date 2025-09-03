@@ -181,7 +181,7 @@ const Home = () => {
               <div className="col-lg-2 d-none d-lg-block mt-4">
                 <h5 className="fw-bold">Categories</h5>
                 <div className="d-flex flex-column">
-                  {categories.map((c) => (
+                  {categories && categories.map((c) => (
                     <Checkbox
                       key={c._id}
                       onChange={(e) => handleFilter(e.target.checked, c._id)}
@@ -225,7 +225,7 @@ const Home = () => {
                   </button>
 
                   <div className="d-flex flex-row flex-nowrap overflow-auto no-scrollbar">
-                    {categories.map((c) => (
+                    {categories && categories.map((c) => (
                       <button
                         key={c._id}
                         className="btn btn-outline-dark  rounded-3 px-4 py-1 me-1"
