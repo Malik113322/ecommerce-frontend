@@ -97,7 +97,7 @@ const MobileMenu = ({ auth, handleLogout, category }) => {
                   <NavLink
                     to="/login"
                     className="nav-link"
-                    onClick={() => { handleLogout(); closeMenu(); }}
+                    onClick={handleLogout}
                   >
                     Logout
                   </NavLink>
