@@ -13,9 +13,7 @@ const Categories = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_URL}/api/v1/category/categories`
       );
-      if (data.success) {
-        setCategories(data.category);
-      }
+     setCategories(data.categories)
     } catch (error) {
       console.log(error);
     }
@@ -23,6 +21,7 @@ const Categories = () => {
 
   useEffect(() => {
     getCategories();
+    console.log(categories)
   }, []);
 
   return (
@@ -32,8 +31,7 @@ const Categories = () => {
     <div className="container py-4">
       <h2 className="text-center mb-4">All Categories</h2>
       <div className="row g-3">
-        {categories.length > 0 ? (
-          categories.map((c) => (
+        { categories.length>0 ? (categories.map((c) => (
             <div className="col-md-4 col-sm-6" key={c._id}>
               <div className="card shadow-sm border-0 h-100">
                 <div className="card-body text-center">
