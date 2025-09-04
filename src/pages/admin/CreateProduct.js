@@ -82,7 +82,7 @@ const CreateProduct = () => {
         size="large"
         className="w-100"
       >
-        {categories.map((c) => (
+        {categories && categories.map((c) => (
           <Option key={c._id} value={c._id}>
             {c.name}
           </Option>
