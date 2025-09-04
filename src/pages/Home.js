@@ -68,7 +68,11 @@ const Home = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_URL}/api/v1/category/categories`
       );
+<<<<<<< HEAD
      setCategories(data.categories)
+=======
+      if (data.success) setCategories(data.categories);
+>>>>>>> 10a888f25188130e33a41986320e26e9e4811363
     } catch (error) {
       console.log(error);
     }

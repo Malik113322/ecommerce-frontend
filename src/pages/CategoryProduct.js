@@ -12,7 +12,11 @@ const CategoryProduct = () => {
     const getData = async () => {
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/category-product/${params.slug}`);
+<<<<<<< HEAD
             setCategory(data.category.name);
+=======
+             setCategory(data.category.name);
+>>>>>>> 10a888f25188130e33a41986320e26e9e4811363
             setProducts(data.products)
         } catch (error) {
             console.log(error)
