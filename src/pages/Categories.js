@@ -13,7 +13,8 @@ const Categories = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_URL}/api/v1/category/categories`
       );
-       setCategories(data.categories)
+
+     setCategories(data.categories)
     } catch (error) {
       console.log(error);
     }
@@ -21,6 +22,7 @@ const Categories = () => {
 
   useEffect(() => {
     getCategories();
+    console.log(categories)
   }, []);
 
   return (
@@ -30,6 +32,27 @@ const Categories = () => {
     <div className="container py-4">
       <h2 className="text-center mb-4">All Categories</h2>
       <div className="row g-3">
+<<<<<<< HEAD
+        {categories.length > 0 ? (
+          categories.map((c) => (
+            <div className="col-md-4 col-sm-6" key={c._id}>
+              <div className="card shadow-sm border-0 h-100">
+                <div className="card-body text-center">
+                  <h5 className="card-title">{c.name}</h5>
+                  <Link
+                    to={`/category/${c.slug}`}
+                    className="btn btn-outline-primary btn-sm mt-2"
+                  >
+                    View Products
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <Spinner/>
+        )}
+=======
       { categories.length > 0 ? (
   categories.map((c) => (
     <div className="col-md-4 col-sm-6" key={c._id}>
@@ -50,6 +73,7 @@ const Categories = () => {
   <Spinner />
 )}
 
+>>>>>>> 10a888f25188130e33a41986320e26e9e4811363
       </div>
     </div>
     </div>
