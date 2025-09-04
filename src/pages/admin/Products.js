@@ -80,7 +80,7 @@ const Products = () => {
                         </p>
                         <h6 className="text-success mb-3">${p.price}</h6>
                         <div className="mt-auto d-flex justify-content-between">
-                          <Button
+                          <Button onClick={()=>navigate(`/dashboard/admin/update-product/${p.slug}`)}
                             type="default"              // default type (neutral background)
                             size="small"                // small size like btn-sm
                             style={{
@@ -90,6 +90,7 @@ const Products = () => {
                               
                             }}
                             icon={<EditOutlined style={{ marginRight: 4 }} />} // like me-1
+                            
                           >
                             Edit
                           </Button>
