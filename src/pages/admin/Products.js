@@ -61,7 +61,7 @@ const Products = () => {
 
             {products.length > 0 ? (
               <div className="row g-4">
-                {products && products.map((p) => (
+                {products.map((p) => (
                   <div key={p._id} className="col-sm-6 col-md-4 col-lg-3">
                     <div className="card h-100 shadow-sm border-0 rounded-3">
                       <img
