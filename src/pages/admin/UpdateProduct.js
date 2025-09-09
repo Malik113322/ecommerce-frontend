@@ -28,7 +28,7 @@ const UpdateProduct = () => {
         `${process.env.REACT_APP_URL}/api/v1/product/single-product/${params.slug}`
       );
       if (data.success) {
-        const p = data.product[0];
+        const p = data.product;
         setCategory(p.category);
         setName(p.name);
         setDescription(p.description);
@@ -54,7 +54,7 @@ const UpdateProduct = () => {
         `${process.env.REACT_APP_URL}/api/v1/category/categories`
       );
       if (data.success) {
-        setCategories(data.category);
+        setCategories(data.categories);
       }
     } catch (error) {
       console.log(error);
