@@ -25,7 +25,8 @@ import CategoryProduct from "./pages/CategoryProduct";
 import Profile from "./pages/user/Profile";
 import Orders from "./pages/user/Orders";
 import Success from "./stripe-pages/Success";
-import Cancle from "./stripe-pages/Cancel";
+import Cancel from "./stripe-pages/Cancel";
+import MyOrders from "./pages/MyOrders";
 
 
 
@@ -58,9 +59,10 @@ const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/categories" element={<Categories />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/myorders" element={<MyOrders />} />
       <Route path="/policy" element={<Policy />} />
       <Route path="/success" element={<Success/>}/>
-      <Route path="/cancel" element={<Cancle/>}/>
+      <Route path="/cancel" element={<Cancel/>}/>
       <Route path="*" element={<Pagenot />} />
     </Routes>
   );

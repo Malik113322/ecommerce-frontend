@@ -4,10 +4,9 @@ import SearchInput from "../../Form/SearchInput";
 import useCategory from "../../hooks/useCategory";
 import { useCart } from "../../context/cart";
 import { Badge } from "antd";
-import { HiOutlineMenu } from "react-icons/hi";
 import { AiFillHome, AiOutlineUser } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
-import { BsCart3 } from "react-icons/bs";
+import { BsCart3, BsClipboardCheck } from "react-icons/bs";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import MobileMenu from "./MobileMenu";
 
@@ -38,7 +37,7 @@ const Headers = () => {
 
           {/* Mobile: Hamburger + Brand + Cart */}
           <div className="d-flex align-items-center d-lg-none w-100 justify-content-between">
-           <MobileMenu auth={auth} handleLogout={handleLogout} category={category} />
+            <MobileMenu auth={auth} handleLogout={handleLogout} category={category} />
 
             <NavLink to="/" className="navbar-brand text-white fw-bold fs-2 ">
               🛒 eCommerce
@@ -54,7 +53,7 @@ const Headers = () => {
           {/* Desktop Navbar */}
           <div className="d-none d-lg-flex align-items-center w-100 justify-content-between">
             {/* Left links */}
-             <NavLink to="/" className="navbar-brand text-white fw-bold fs-3 d-flex mb-2 ">
+            <NavLink to="/" className="navbar-brand text-white fw-bold fs-3 d-flex mb-2 ">
               🛒 eCommerce
             </NavLink>
             <ul className="navbar-nav d-flex align-items-center gap-3">
@@ -82,6 +81,9 @@ const Headers = () => {
                     </li>
                   ))}
                 </ul>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/myorders" className="nav-link text-white">Orders</NavLink>
               </li>
             </ul>
 
@@ -124,7 +126,7 @@ const Headers = () => {
               <li className="nav-item">
                 <NavLink to="/cart" className="nav-link text-white position-relative">
                   <Badge count={cart.length} showZero>
-                    <BsCart3 size={24}/>
+                    <BsCart3 size={24} />
                   </Badge>
                 </NavLink>
               </li>
@@ -137,30 +139,34 @@ const Headers = () => {
       <div className="d-lg-none fixed-bottom bg-white shadow-sm border-top">
         <div className="d-flex justify-content-around py-2">
           <NavLink to="/" className="text-center text-dark">
-            <AiFillHome size={24} />
+            <AiFillHome size={18} />
             <div className="small">Home</div>
           </NavLink>
 
           <NavLink to="/categories" className="text-center text-dark">
-            <BiCategory size={24} />
+            <BiCategory size={18} />
             <div className="small">Category</div>
+          </NavLink>
+          <NavLink to="/myorders" className="text-center text-dark">
+              <BsClipboardCheck size={20} />
+             <div className="small">Orders</div>
           </NavLink>
 
           <NavLink to="/cart" className="text-center text-dark position-relative">
             <Badge count={cart.length} showZero>
-              <BsCart3 size={24} />
+              <BsCart3 size={18} />
             </Badge>
             <div className="small">Cart</div>
           </NavLink>
 
           <NavLink to={auth.user ? `/dashboard/${auth.user.role === 1 ? "admin" : "user"}` : "/login"} className="text-center text-dark">
-            <AiOutlineUser size={24} />
+            <AiOutlineUser size={18} />
             <div className="small">{auth.user ? "Profile" : "Login"}</div>
           </NavLink>
         </div>
       </div>
 
-      
+
     </>
   );
 };
