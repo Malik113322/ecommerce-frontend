@@ -39,29 +39,28 @@ const Cart = () => {
   };
 
   // Checkout function
-  const checkout = async () => {
-    const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC);
-    try {
-      if (cart.length > 0) {
-        const data = await fetch(
-          `${process.env.REACT_APP_URL}/api/v1/product/api/create-checkout-session`,
-          {
-            method: "POST",
-            headers: {
-              "Content-type": "application/json",
-            },
-            body: JSON.stringify({ products: cart }),
-          }
-        );
-        const session = await data.json();
-        await stripe.redirectToCheckout({ sessionId: session.id });
-      } else {
-        toast.error("Please add some products in cart!");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ const checkout = async () => {
+  const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC);
+
+  if (cart.length > 0) {
+    let auth = JSON.parse(localStorage.getItem("auth"));
+    let { token, user } = auth;
+    // Step 1: Call backend to create Stripe session
+    const response = await fetch("http://localhost:8081/api/v1/product/api/create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify({ products: cart, buyerId: user._id }),
+    });
+
+    const session = await response.json();
+
+    // Step 2: Redirect to Stripe checkout
+    await stripe.redirectToCheckout({ sessionId: session.id });
+  }
+};
 
   return (
     <Layout title={"Cart Page"}>
