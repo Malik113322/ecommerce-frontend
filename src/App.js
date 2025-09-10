@@ -36,7 +36,7 @@ const App = () => {
       <Route path="/dashboard" element={<PrivateRout />}>
         <Route path="user" element={<Dashboard />} />
         <Route path="user/profile" element={<Profile />} />
-        <Route path="user/orders" element={<Orders />} />
+        <Route path="user/orders" element={< MyOrders />} />
       </Route>
 
       <Route path="/dashboard" element={<AmdinPrivatRoute />}>
