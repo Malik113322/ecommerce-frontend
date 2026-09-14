@@ -30,6 +30,7 @@ const CategoryProduct = () => {
 
   useEffect(() => {
     if (params.slug) getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.slug]);
 
   const handleAddToCart = (e, product) => {

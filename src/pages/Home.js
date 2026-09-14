@@ -30,6 +30,7 @@ const Home = () => {
   // Get products
   useEffect(() => {
     if (!checked.length > 0) getProductsClient();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checked.length]);
 
   const getProductsClient = async () => {
@@ -49,6 +50,7 @@ const Home = () => {
   // Filter products
   useEffect(() => {
     if (checked.length > 0 || radio.length) filterProductClient();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checked, radio]);
 
   const filterProductClient = async () => {
@@ -77,6 +79,7 @@ const Home = () => {
 
   useEffect(() => {
     getCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle category filter

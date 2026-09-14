@@ -1,7 +1,6 @@
 import React from "react";
 import Layout from "../../components/Layout/Layout";
 import Adminmenu from "../../components/Layout/Adminmenu";
-import Profile from "../user/Profile";
 
 const Users = () => {
   return (

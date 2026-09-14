@@ -1,4 +1,4 @@
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/Auth/Register";
 import "./App.css";
@@ -23,7 +23,6 @@ import SearchedProducts from "./pages/SearchedProducts";
 import ProductDetails from "./pages/ProductDetails";
 import CategoryProduct from "./pages/CategoryProduct";
 import Profile from "./pages/user/Profile";
-import Orders from "./pages/user/Orders";
 import Success from "./stripe-pages/Success";
 import Cancel from "./stripe-pages/Cancel";
 import MyOrders from "./pages/MyOrders";

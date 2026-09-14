@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
@@ -15,7 +15,6 @@ const Footer = () => {
     <footer className="bg-dark text-light pt-5 pb-5 mt-5 position-relative">
       <div className="container">
         <div className="row">
-
           {/* Company Info */}
           <div className="col-12 col-md-4 mb-4 mb-md-0">
             <h5 className="fw-bold">Malik Store</h5>
@@ -31,24 +30,27 @@ const Footer = () => {
             <ul className="list-unstyled">
               <li className="mb-2">
                 <button
+                  type="button"
                   onClick={() => handleNavigation("/about")}
-                  className="btn p-0 text-light text-decoration-none hover-link"
+                  className="btn p-0 text-light text-decoration-none hover-link bg-transparent border-0"
                 >
                   About Us
                 </button>
               </li>
               <li className="mb-2">
                 <button
+                  type="button"
                   onClick={() => handleNavigation("/contact")}
-                  className="btn p-0 text-light text-decoration-none hover-link"
+                  className="btn p-0 text-light text-decoration-none hover-link bg-transparent border-0"
                 >
                   Contact
                 </button>
               </li>
               <li className="mb-2">
                 <button
+                  type="button"
                   onClick={() => handleNavigation("/policy")}
-                  className="btn p-0 text-light text-decoration-none hover-link"
+                  className="btn p-0 text-light text-decoration-none hover-link bg-transparent border-0"
                 >
                   Privacy Policy
                 </button>
@@ -60,13 +62,12 @@ const Footer = () => {
           <div className="col-12 col-md-4">
             <h5 className="fw-bold">Follow Us</h5>
             <div className="d-flex gap-3 mt-2">
-              <a href="#" className="text-light hover-link"><FaFacebookF /></a>
-              <a href="#" className="text-light hover-link"><FaTwitter /></a>
-              <a href="#" className="text-light hover-link"><FaInstagram /></a>
-              <a href="#" className="text-light hover-link"><FaLinkedinIn /></a>
+              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="text-light hover-link" aria-label="Facebook"><FaFacebookF /></a>
+              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="text-light hover-link" aria-label="Twitter"><FaTwitter /></a>
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="text-light hover-link" aria-label="Instagram"><FaInstagram /></a>
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-light hover-link" aria-label="LinkedIn"><FaLinkedinIn /></a>
             </div>
           </div>
-
         </div>
 
         <hr className="bg-light mt-4" />
@@ -79,20 +80,6 @@ const Footer = () => {
 
       {/* Extra padding for mobile bottom nav */}
       <div className="d-block d-md-none" style={{ height: "80px" }}></div>
-
-      <style jsx>{`
-        .hover-link:hover {
-          color: #ffc107;
-          transition: color 0.3s;
-        }
-
-        /* Remove button styles for footer links */
-        button {
-          background: none;
-          border: none;
-          cursor: pointer;
-        }
-      `}</style>
     </footer>
   );
 };
