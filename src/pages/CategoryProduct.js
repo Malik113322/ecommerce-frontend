@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
+import { MESSAGES } from "../constants/index";
 
 const CategoryProduct = () => {
   const [products, setProducts] = useState([]);
@@ -38,7 +39,7 @@ const CategoryProduct = () => {
     const updatedCart = [...cart, product];
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
-    toast.success("Added to Cart Successfully");
+    toast.success(MESSAGES.PRODUCT.ADDED_TO_CART);
   };
 
   return (

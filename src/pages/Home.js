@@ -11,6 +11,7 @@ import resizeImage2 from "../assets/resize2.png";
 import resizeImage3 from "../assets/resize3.png"; 
 import resizeImage4 from "../assets/resize4.png"; 
 import DiscountSlider from "./Discount";
+import { MESSAGES, APP_CONFIG } from "../constants/index";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -20,7 +21,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [cart, setCart] = useCart([]);
-  const itemsPerPage = 8;
+  const itemsPerPage = APP_CONFIG.ITEMS_PER_PAGE || 8;
   const [currentPage, setCurrentPage] = useState(1);
   const start = (currentPage - 1) * itemsPerPage;
   const end = start + itemsPerPage;
@@ -59,7 +60,10 @@ const Home = () => {
         `${process.env.REACT_APP_URL}/api/v1/product/filter-products`,
         { checked, radio }
       );
-      if (data.success) setProducts(data.products);
+      if (data.success) {
+        setProducts(data.products);
+        setCurrentPage(1); // Reset to page 1 on filter
+      }
     } catch (error) {
       console.log(error);
     }
@@ -101,8 +105,7 @@ const Home = () => {
           </div>
         ) : (
           <>
-          
-          <DiscountSlider/>
+            <DiscountSlider />
             {/* ----------- Carousel with clickable images ----------- */}
             <div
               id="homeCarousel"
@@ -113,12 +116,11 @@ const Home = () => {
                 <div className="carousel-item active">
                   <a href="/category/1">
                     <img
-                     src={resizeImage1}
+                      src={resizeImage1}
                       className="d-block w-100 img-fluid rounded-4"
                       alt="Slide 1"
                       style={{ maxHeight: "500px", objectFit: "cover" }}
                     />
-
                   </a>
                 </div>
                 <div className="carousel-item">
@@ -129,7 +131,6 @@ const Home = () => {
                       alt="Slide 1"
                       style={{ maxHeight: "500px", objectFit: "cover" }}
                     />
-
                   </a>
                 </div>
                 <div className="carousel-item">
@@ -149,7 +150,6 @@ const Home = () => {
                       className="d-block w-100 img-fluid rounded-4"
                       alt="Slide 1"
                       style={{ maxHeight: "500px", objectFit: "cover" }}
-
                     />
                   </a>
                 </div>
@@ -160,10 +160,7 @@ const Home = () => {
                 data-bs-target="#homeCarousel"
                 data-bs-slide="prev"
               >
-                <span
-                  className="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
+                <span className="carousel-control-prev-icon" aria-hidden="true" />
                 <span className="visually-hidden">Previous</span>
               </button>
               <button
@@ -172,34 +169,32 @@ const Home = () => {
                 data-bs-target="#homeCarousel"
                 data-bs-slide="next"
               >
-                <span
-                  className="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
+                <span className="carousel-control-next-icon" aria-hidden="true" />
                 <span className="visually-hidden">Next</span>
               </button>
             </div>
 
             <div className="row">
-              {/* Desktop Sidebar */}
-              <div className="col-lg-2 d-none d-lg-block mt-4">
-                <h5 className="fw-bold">Categories</h5>
-                <div className="d-flex flex-column">
-                  {categories && categories.map((c) => (
-                    <Checkbox
-                      key={c._id}
-                      onChange={(e) => handleFilter(e.target.checked, c._id)}
-                    >
-                      {c.name}
-                    </Checkbox>
-                  ))}
+              {/* Desktop Filters */}
+              <div className="col-lg-2 d-none d-lg-block p-3">
+                <h5 className="fw-bold mb-3">Categories</h5>
+                <div className="d-flex flex-column gap-2">
+                  {categories &&
+                    categories.map((c) => (
+                      <Checkbox
+                        key={c._id}
+                        onChange={(e) => handleFilter(e.target.checked, c._id)}
+                      >
+                        {c.name}
+                      </Checkbox>
+                    ))}
                 </div>
 
                 <div className="mt-4">
-                  <h5 className="fw-bold">Price</h5>
+                  <h5 className="fw-bold mb-3">Price</h5>
                   <Radio.Group onChange={(e) => setRadio(e.target.value)}>
                     {Price.map((p) => (
-                      <div key={p._id}>
+                      <div key={p._id} className="mb-1">
                         <Radio value={p.array}>{p.name}</Radio>
                       </div>
                     ))}
@@ -229,124 +224,184 @@ const Home = () => {
                   </button>
 
                   <div className="d-flex flex-row flex-nowrap overflow-auto no-scrollbar">
-                    {categories && categories.map((c) => (
-                      <button
-                        key={c._id}
-                        className="btn btn-outline-dark  rounded-3 px-4 py-1 me-1"
-                        onClick={() => handleFilter(true, c._id)}
-                      >
-                        {c.name}
-                      </button>
-                    ))}
+                    {categories &&
+                      categories.map((c) => (
+                        <button
+                          key={c._id}
+                          className="btn btn-outline-dark rounded-3 px-4 py-1 me-1"
+                          onClick={() => handleFilter(true, c._id)}
+                        >
+                          {c.name}
+                        </button>
+                      ))}
                   </div>
                 </div>
               </div>
 
               {/* Products Grid */}
               <div className="col-lg-10 mt-3">
-                <div className="row">
-                  {paginatedData.map((p) => (
-                    <div key={p._id} className="col-6 col-md-4 col-lg-3 mb-4">
-                      <div className="card h-100 shadow border-0 rounded-4 hover-card">
-                        {/* Product Image */}
-                        <div className="d-flex justify-content-center align-items-center p-3">
-                          <img
-                            src={p.image}
-                            className="card-img-top"
-                            alt={p.name}
+                {products.length === 0 ? (
+                  <div className="text-center py-5 my-3 bg-light rounded-4 shadow-sm p-4">
+                    <div className="mb-3">
+                      <i
+                        className="bi bi-funnel text-muted"
+                        style={{ fontSize: "3.5rem" }}
+                      ></i>
+                    </div>
+                    <h4 className="fw-bold text-secondary mb-2">
+                      {MESSAGES.PRODUCT.NO_FILTER_PRODUCTS}
+                    </h4>
+                    <p className="text-muted mb-4">
+                      {MESSAGES.PRODUCT.TRY_CHANGING_FILTERS}
+                    </p>
+                    <button
+                      className="btn btn-outline-danger rounded-pill px-4 py-2"
+                      onClick={() => window.location.reload()}
+                    >
+                      <i className="bi bi-arrow-clockwise me-2"></i>Reset Filters
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <div className="row">
+                      {paginatedData.map((p) => (
+                        <div
+                          key={p._id}
+                          className="col-6 col-md-4 col-lg-3 mb-4"
+                        >
+                          <div
+                            className="card h-100 shadow border-0 rounded-4 hover-card product-card d-flex flex-column"
                             style={{
-                              width: "150px",
-                              height: "150px",
-                              objectFit: "contain",
-                            }}
-                          />
-                        </div>
-
-                        {/* Card Body */}
-                        <div className="card-body d-flex flex-column">
-                          <p className="text-center">{p.name}</p>
-
-                          <p
-                            className="text-muted small"
-                            style={{
-                              display: "-webkit-box",
-                              WebkitBoxOrient: "vertical",
+                              cursor: "pointer",
+                              backgroundColor: "#ffffff",
                               overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              WebkitLineClamp:
-                                window.innerWidth < 992 ? 1 : 3,
                             }}
+                            onClick={() => navigate(`/product/${p.slug}`)}
                           >
-                            {p.description}
-                          </p>
-
-                          <p className="fw-bold text-success text-center fs-5 mb-3">
-                            ${p.price}
-                          </p>
-
-                          <div className="mt-auto">
-                            <button
-                              className="btn btn-sm btn-outline-primary w-100 mb-2"
-                              onClick={() =>
-                                navigate(`/product/${p.slug}`)
-                              }
-                            >
-                              View Details
-                            </button>
-                            <button
-                              className="btn btn-sm btn-success w-100"
-                              onClick={() => {
-                                setCart([...cart, p]);
-                                localStorage.setItem(
-                                  "cart",
-                                  JSON.stringify([...cart, p])
-                                );
-                                toast.success("Added to Cart Successfully");
+                            {/* Product Image */}
+                            <div
+                              className="d-flex justify-content-center align-items-center p-3 position-relative"
+                              style={{
+                                height: "180px",
+                                backgroundColor: "#f8f9fa",
+                                overflow: "hidden",
                               }}
                             >
-                              Add to Cart
-                            </button>
+                              <img
+                                src={p.image}
+                                className="card-img-top img-fluid product-card-img"
+                                alt={p.name}
+                                style={{
+                                  maxHeight: "150px",
+                                  maxWidth: "100%",
+                                  objectFit: "contain",
+                                  transition: "transform 0.3s ease",
+                                }}
+                              />
+                            </div>
+
+                            {/* Card Body */}
+                            <div className="card-body d-flex flex-column p-3">
+                              <h6
+                                className="card-title fw-bold text-dark text-truncate-2 mb-2 text-center"
+                                title={p.name}
+                                style={{
+                                  fontSize: "0.95rem",
+                                  lineHeight: "1.4",
+                                  minHeight: "2.7rem",
+                                }}
+                              >
+                                {p.name}
+                              </h6>
+
+                              <p
+                                className="card-text text-muted small mb-3 text-truncate-2"
+                                style={{
+                                  fontSize: "0.85rem",
+                                  lineHeight: "1.4",
+                                }}
+                              >
+                                {p.description}
+                              </p>
+
+                              <p className="fw-bold text-success text-center fs-5 mt-auto mb-3">
+                                ${p.price}
+                              </p>
+
+                              <div className="d-grid gap-2">
+                                <button
+                                  className="btn btn-sm btn-outline-primary rounded-pill py-2 fw-medium d-flex align-items-center justify-content-center gap-1"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(`/product/${p.slug}`);
+                                  }}
+                                >
+                                  <i className="bi bi-eye"></i> View Details
+                                </button>
+                                <button
+                                  className="btn btn-sm btn-success rounded-pill py-2 fw-medium d-flex align-items-center justify-content-center gap-1 shadow-sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setCart([...cart, p]);
+                                    localStorage.setItem(
+                                      "cart",
+                                      JSON.stringify([...cart, p])
+                                    );
+                                    toast.success(
+                                      MESSAGES.PRODUCT.ADDED_TO_CART
+                                    );
+                                  }}
+                                >
+                                  <i className="bi bi-cart-plus"></i> Add to
+                                  Cart
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
 
-                {/* Pagination */}
-                <div className="d-flex justify-content-center align-items-center my-3 flex-wrap">
-                  <button
-                    className="btn btn-outline-danger mx-1"
-                    onClick={() =>
-                      currentPage > 1 && setCurrentPage((pre) => pre - 1)
-                    }
-                    disabled={currentPage === 1}
-                  >
-                    Prev
-                  </button>
-                  {Array.from({ length: totalPage }, (_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentPage(index + 1)}
-                      className={`btn mx-1 ${currentPage === index + 1
-                        ? "btn-danger"
-                        : "btn-outline-danger"
-                        }`}
-                    >
-                      {index + 1}
-                    </button>
-                  ))}
-                  <button
-                    className="btn btn-outline-danger mx-1"
-                    onClick={() =>
-                      currentPage < totalPage &&
-                      setCurrentPage((pre) => pre + 1)
-                    }
-                    disabled={currentPage === totalPage}
-                  >
-                    Next
-                  </button>
-                </div>
+                    {/* Pagination */}
+                    {totalPage > 1 && (
+                      <div className="d-flex justify-content-center align-items-center my-3 flex-wrap">
+                        <button
+                          className="btn btn-outline-danger mx-1"
+                          onClick={() =>
+                            currentPage > 1 &&
+                            setCurrentPage((pre) => pre - 1)
+                          }
+                          disabled={currentPage === 1}
+                        >
+                          Prev
+                        </button>
+                        {Array.from({ length: totalPage }, (_, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setCurrentPage(index + 1)}
+                            className={`btn mx-1 ${
+                              currentPage === index + 1
+                                ? "btn-danger"
+                                : "btn-outline-danger"
+                            }`}
+                          >
+                            {index + 1}
+                          </button>
+                        ))}
+                        <button
+                          className="btn btn-outline-danger mx-1"
+                          onClick={() =>
+                            currentPage < totalPage &&
+                            setCurrentPage((pre) => pre + 1)
+                          }
+                          disabled={currentPage === totalPage}
+                        >
+                          Next
+                        </button>
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </>

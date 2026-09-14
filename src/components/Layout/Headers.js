@@ -9,6 +9,7 @@ import { BiCategory } from "react-icons/bi";
 import { BsCart3, BsClipboardCheck } from "react-icons/bs";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import MobileMenu from "./MobileMenu";
+import { MESSAGES } from "../../constants/index";
 
 const Headers = () => {
   const [auth, setAuth] = useAuth();
@@ -17,13 +18,11 @@ const Headers = () => {
   const [cart] = useCart();
 
   const handleLogout = (e) => {
-    e.preventDefault();
-    toast.success("Successfully Logout");
-    setTimeout(() => {
-      setAuth({ user: null, token: "" });
-      localStorage.removeItem("auth");
-      navigate("/login");
-    }, 2000);
+    if (e && e.preventDefault) e.preventDefault();
+    setAuth({ user: null, token: "" });
+    localStorage.removeItem("auth");
+    toast.success(MESSAGES.AUTH.LOGOUT_SUCCESS);
+    navigate("/login");
   };
 
   return (
@@ -148,8 +147,8 @@ const Headers = () => {
             <div className="small">Category</div>
           </NavLink>
           <NavLink to="/myorders" className="text-center text-dark">
-              <BsClipboardCheck size={20} />
-             <div className="small">Orders</div>
+            <BsClipboardCheck size={20} />
+            <div className="small">Orders</div>
           </NavLink>
 
           <NavLink to="/cart" className="text-center text-dark position-relative">

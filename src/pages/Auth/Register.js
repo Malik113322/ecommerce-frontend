@@ -3,6 +3,7 @@ import Layout from "../../components/Layout/Layout";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { MESSAGES } from "../../constants/index";
 import {
   BiFootball,
   BiHide,
@@ -32,15 +33,15 @@ const Register = () => {
         { name, email, password, phone, address, answer }
       );
 
-      if (res.data) {
-        toast.success("Registered successfully!");
-        setTimeout(() => navigate("/login"), 1500);
+      if (res.data?.success) {
+        toast.success(MESSAGES.AUTH.REGISTER_SUCCESS);
+        navigate("/login");
       } else {
-        toast.error("Error in registration!");
+        toast.error(res.data?.message || MESSAGES.AUTH.REGISTER_ERROR);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong!");
+      toast.error(error.response?.data?.message || MESSAGES.AUTH.SOMETHING_WENT_WRONG);
     }
   };
 

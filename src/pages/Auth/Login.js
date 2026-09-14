@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import { BiShow, BiHide } from "react-icons/bi"; // Eye icons
+import { MESSAGES } from "../../constants/index";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,21 +23,19 @@ const Login = () => {
         { email, password }
       );
 
-      if (res.data) {
-        toast.success("Successfully logged in!");
+      if (res.data?.success || res.data?.token) {
+        toast.success(MESSAGES.AUTH.LOGIN_SUCCESS);
         setAuth({
           ...auth,
           user: res.data.user,
           token: res.data.token,
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
-        setTimeout(() => {
-          navigate(location.state || "/");
-        }, 1000);
+        navigate(location.state || "/");
       }
     } catch (error) {
       console.log(error);
-      toast.error("Invalid email or password");
+      toast.error(error.response?.data?.message || MESSAGES.AUTH.INVALID_CREDENTIALS);
     }
   };
 
