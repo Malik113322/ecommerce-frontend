@@ -26,34 +26,30 @@ const Categories = () => {
 
   return (
     <Layout title="Categories"> 
-      <div className="container-fluid py-4">
-
-    <div className="container py-4">
-      <h2 className="text-center mb-4">All Categories</h2>
-      <div className="row g-3">
-      { categories.length > 0 ? (
-  categories.map((c) => (
-    <div className="col-md-4 col-sm-6" key={c._id}>
-      <div className="card shadow-sm border-0 h-100">
-        <div className="card-body text-center">
-          <h5 className="card-title">{c.name}</h5>
-          <Link
-            to={`/category/${c.slug}`}
-            className="btn btn-outline-primary btn-sm mt-2"
-          >
-            View Products
-          </Link>
+      <div className="container py-4">
+        <h2 className="text-center mb-4 fw-bold">All Categories</h2>
+        <div className="row g-3">
+          {categories.length > 0 ? (
+            categories.map((c) => (
+              <div className="col-md-4 col-sm-6" key={c._id}>
+                <div className="card shadow-sm border-0 h-100 hover-card">
+                  <div className="card-body text-center p-4">
+                    <h5 className="card-title fw-bold mb-3">{c.name}</h5>
+                    <Link
+                      to={`/category/${c.slug}`}
+                      className="btn btn-outline-primary btn-sm rounded-pill px-3"
+                    >
+                      View Products
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <Spinner />
+          )}
         </div>
       </div>
-    </div>
-  ))
-) : (
-  <Spinner />
-)}
-
-      </div>
-    </div>
-    </div>
     </Layout>
   );
 };

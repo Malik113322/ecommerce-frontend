@@ -16,7 +16,7 @@ const ForgetPassword = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `http://localhost:8080/api/v1/auth/forget-password`,
+        `${process.env.REACT_APP_URL}/api/v1/auth/forget-password`,
         { email, answer, newPassword }
       );
       if (res.data.success) {
@@ -30,8 +30,8 @@ const ForgetPassword = () => {
 
   return (
     <Layout title={"Reset password"}>
-      <div className="d-flex justify-content-center align-items-center vh-100 mx-5">
-        <div className="card shadow p-4" style={{ width: "380px" }}>
+      <div className="d-flex justify-content-center align-items-center py-5 min-vh-75 px-3">
+        <div className="card shadow-sm border-0 rounded-4 p-4 p-md-5" style={{ maxWidth: "420px", width: "100%" }}>
           <h3 className="text-center mb-4">🔑 Reset Password</h3>
 
           <form onSubmit={handleReset}>

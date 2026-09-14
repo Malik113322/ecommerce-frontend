@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
+import UserMenu from "../../components/Layout/UserMenu";
 import { useAuth } from "../../context/auth";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -53,15 +54,17 @@ const Profile = () => {
 
   return (
     <Layout title="My Profile">
-      <div className="container-fluid py-4">
-        <div className="row">
-          {/* Sidebar */}
-          {/* Profile Form */}
-          <div className="col-md-9 d-flex justify-content-center">
-            <div className="card shadow-sm border-0 rounded-3 p-4 w-100" style={{ maxWidth: "600px" }}>
-              <h3 className="fw-bold text-center text-danger border-bottom pb-2 mb-4">
-                My Profile
-              </h3>
+      <div className="container py-4">
+        <div className="row g-4">
+          <div className="col-12 col-md-4 col-lg-3">
+            <UserMenu />
+          </div>
+
+          <div className="col-12 col-md-8 col-lg-9">
+            <div className="card shadow-sm border-0 rounded-4 p-4 p-md-5 bg-white">
+              <h2 className="fw-bold mb-4 text-dark border-bottom pb-3">
+                👤 My Profile
+              </h2>
 
               <form onSubmit={updateDetails}>
                 {/* Name */}
@@ -79,10 +82,10 @@ const Profile = () => {
 
                 {/* Email */}
                 <div className="mb-3">
-                  <label className="form-label fw-semibold">Email</label>
+                  <label className="form-label fw-semibold">Email Address</label>
                   <input
                     type="email"
-                    className="form-control"
+                    className="form-control bg-light"
                     placeholder="Enter email"
                     value={email}
                     disabled
@@ -115,14 +118,13 @@ const Profile = () => {
 
                 {/* Submit Button */}
                 <div className="d-grid">
-                  <button type="submit" className="btn btn-primary btn-lg">
-                    <i className="bi bi-check-circle me-2"></i> Update Profile
+                  <button type="submit" className="btn btn-primary btn-lg rounded-3">
+                    Update Profile
                   </button>
                 </div>
               </form>
             </div>
           </div>
-
         </div>
       </div>
     </Layout>

@@ -1,6 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;700&display=swap");
-/* font-family: 'Playfair Display', serif;
-font-family: 'Poppins', sans-serif; */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700&display=swap");
 
 * {
   padding: 0;
@@ -8,6 +6,22 @@ font-family: 'Poppins', sans-serif; */
   box-sizing: border-box;
 }
 
+body {
+  font-family: "Poppins", sans-serif;
+  color: #333333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #0d6efd;
+}
+
+/* Card hover animation */
 .hover-card {
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
   border: 1px solid rgba(0, 0, 0, 0.08) !important;
@@ -34,15 +48,30 @@ font-family: 'Poppins', sans-serif; */
   overflow: hidden;
 }
 
-.search-card{
-  width: 500px;
+/* Dropdown styling */
+.dropdown-menu {
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  padding: 6px !important;
+  overflow: hidden !important;
 }
 
-.nav-link:hover {
-  border-bottom: 1px solid black;
+.dropdown-item {
+  margin: 0 !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-size: 0.95rem !important;
+  color: #333 !important;
+  transition: all 0.2s ease !important;
+  width: auto !important;
 }
 
-
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #f0f4ff !important;
+  color: #0d6efd !important;
+}
 
 .navbar-brand {
   font-family: "Playfair Display", serif;
@@ -50,41 +79,9 @@ font-family: 'Poppins', sans-serif; */
 }
 
 .list-group-item.active {
-  background-color: #198754 !important; /* Bootstrap success green */
+  background-color: #198754 !important;
   border-color: #198754 !important;
   color: white !important;
-}
-
-
-
-
-a {
-  font-family: "Poppins", sans-serif;
-  color: lightblue;
-  margin: 0.5rem;
-  text-decoration: none;
-  font-size: 1.2rem;
-}
-
-a:hover {
-  color: coral;
-}
-
-.color {
-  font-family: "Poppins", sans-serif;
-  font-size: 24px;
-}
-
-#card-number{
-  opacity: 0.5;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.filter-section {
-  background: linear-gradient(135deg, #f9f9f9, #f0f4ff);
 }
 
 .no-scrollbar::-webkit-scrollbar {

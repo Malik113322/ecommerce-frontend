@@ -81,9 +81,11 @@ const Headers = () => {
                   ))}
                 </ul>
               </li>
-              <li className="nav-item">
-                <NavLink to="/myorders" className="nav-link text-white">Orders</NavLink>
-              </li>
+              {auth?.user && (
+                <li className="nav-item">
+                  <NavLink to="/myorders" className="nav-link text-white">Orders</NavLink>
+                </li>
+              )}
             </ul>
 
             {/* Center search */}
@@ -146,10 +148,13 @@ const Headers = () => {
             <BiCategory size={18} />
             <div className="small">Category</div>
           </NavLink>
-          <NavLink to="/myorders" className="text-center text-dark">
-            <BsClipboardCheck size={20} />
-            <div className="small">Orders</div>
-          </NavLink>
+
+          {auth?.user && (
+            <NavLink to="/myorders" className="text-center text-dark">
+              <BsClipboardCheck size={20} />
+              <div className="small">Orders</div>
+            </NavLink>
+          )}
 
           <NavLink to="/cart" className="text-center text-dark position-relative">
             <Badge count={cart.length} showZero>
