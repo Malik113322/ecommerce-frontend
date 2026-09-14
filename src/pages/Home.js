@@ -5,6 +5,7 @@ import { Checkbox, Radio } from "antd";
 import { Price } from "../components/Layout/Price";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/cart";
+import toast from "react-hot-toast";
 import resizeImage1 from "../assets/resize1.png"; 
 import resizeImage2 from "../assets/resize2.png"; 
 import resizeImage3 from "../assets/resize3.png"; 
@@ -290,13 +291,14 @@ const Home = () => {
                               View Details
                             </button>
                             <button
-                              className="btn btn-sm btn-success w-100 "
+                              className="btn btn-sm btn-success w-100"
                               onClick={() => {
                                 setCart([...cart, p]);
                                 localStorage.setItem(
                                   "cart",
                                   JSON.stringify([...cart, p])
                                 );
+                                toast.success("Added to Cart Successfully");
                               }}
                             >
                               Add to Cart
