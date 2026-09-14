@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import Register from "./pages/Auth/Register";
 import "./App.css";
@@ -27,43 +28,44 @@ import Success from "./stripe-pages/Success";
 import Cancel from "./stripe-pages/Cancel";
 import MyOrders from "./pages/MyOrders";
 
-
-
 const App = () => {
   return (
-    <Routes>
-      <Route path="/dashboard" element={<PrivateRout />}>
-        <Route path="user" element={<Dashboard />} />
-        <Route path="user/profile" element={<Profile />} />
-        <Route path="user/orders" element={< MyOrders />} />
-      </Route>
+    <>
+      <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
+      <Routes>
+        <Route path="/dashboard" element={<PrivateRout />}>
+          <Route path="user" element={<Dashboard />} />
+          <Route path="user/profile" element={<Profile />} />
+          <Route path="user/orders" element={<MyOrders />} />
+        </Route>
 
-      <Route path="/dashboard" element={<AmdinPrivatRoute />}>
-        <Route path="admin" element={<AdminDashboard />} />
-        <Route path="admin/create-category" element={<CreateCategory />} />
-        <Route path="admin/create-product" element={<CreateProduct />} />
-        <Route path="admin/products" element={<Products />} />
-        <Route path="admin/update-product/:slug" element={<UpdateProduct />} />
-        <Route path="admin/users" element={<Users />} />
-      </Route>
+        <Route path="/dashboard" element={<AmdinPrivatRoute />}>
+          <Route path="admin" element={<AdminDashboard />} />
+          <Route path="admin/create-category" element={<CreateCategory />} />
+          <Route path="admin/create-product" element={<CreateProduct />} />
+          <Route path="admin/products" element={<Products />} />
+          <Route path="admin/update-product/:slug" element={<UpdateProduct />} />
+          <Route path="admin/users" element={<Users />} />
+        </Route>
 
-      <Route path="/" element={<Home />} />
-      <Route path="/product/:slug" element={<ProductDetails />} />
-      <Route path="/category/:slug" element={<CategoryProduct />} />
-      <Route path="/searched/products" element={<SearchedProducts />} />
-      <Route path="/forget-password" element={<ForgetPassword />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/categories" element={<Categories />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/myorders" element={<MyOrders />} />
-      <Route path="/policy" element={<Policy />} />
-      <Route path="/success" element={<Success />} />
-      <Route path="/cancel" element={<Cancel />} />
-      <Route path="*" element={<Pagenot />} />
-    </Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/product/:slug" element={<ProductDetails />} />
+        <Route path="/category/:slug" element={<CategoryProduct />} />
+        <Route path="/searched/products" element={<SearchedProducts />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/myorders" element={<MyOrders />} />
+        <Route path="/policy" element={<Policy />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/cancel" element={<Cancel />} />
+        <Route path="*" element={<Pagenot />} />
+      </Routes>
+    </>
   );
 };
 

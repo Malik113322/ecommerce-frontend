@@ -4,6 +4,7 @@ import { useSearch } from "../context/searchProduct";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
+import { MESSAGES } from "../constants/index";
 
 const SearchedProducts = () => {
   const [values] = useSearch();
@@ -19,7 +20,7 @@ const SearchedProducts = () => {
     const updatedCart = [...cart, product];
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
-    toast.success("Added to Cart Successfully");
+    toast.success(MESSAGES.PRODUCT.ADDED_TO_CART);
   };
 
   return (

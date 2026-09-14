@@ -4,6 +4,7 @@ import { useAuth } from "../context/auth";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
+import { MESSAGES } from "../constants/index";
 
 const Cart = () => {
   const [cart, setCart] = useCart();
@@ -19,7 +20,7 @@ const Cart = () => {
         myCart.splice(index, 1);
         setCart(myCart);
         localStorage.setItem("cart", JSON.stringify(myCart));
-        toast.success("Item removed from cart");
+        toast.success(MESSAGES.PRODUCT.ITEM_REMOVED);
       }
     } catch (error) {
       console.log(error);
