@@ -61,11 +61,12 @@ const App = () => {
       <Route path="/cart" element={<Cart />} />
       <Route path="/myorders" element={<MyOrders />} />
       <Route path="/policy" element={<Policy />} />
-      <Route path="/success" element={<Success/>}/>
-      <Route path="/cancel" element={<Cancel/>}/>
+      <Route path="/success" element={<Success />} />
+      <Route path="/cancel" element={<Cancel />} />
       <Route path="*" element={<Pagenot />} />
     </Routes>
   );
 };
 
 export default App;
+
