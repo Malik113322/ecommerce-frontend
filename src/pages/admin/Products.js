@@ -51,18 +51,19 @@ const Products = () => {
 
   return (
     <Layout title="All Products">
-      <div className="container-fluid py-4">
-        <div className="row">
+      <div className="container py-4">
+        <div className="row g-4">
           {/* Left Sidebar */}
-          <div className="col-md-3">
+          <div className="col-12 col-md-4 col-lg-3">
             <Adminmenu />
           </div>
 
           {/* Main Content */}
-          <div className="col-md-9">
-            <h2 className="text-center fw-bold text-danger border-bottom pb-2 mb-4">
-              All Products
-            </h2>
+          <div className="col-12 col-md-8 col-lg-9">
+            <div className="card shadow-sm border-0 rounded-4 p-4">
+              <h2 className="text-center fw-bold text-danger border-bottom pb-2 mb-4">
+                All Products
+              </h2>
             {
               loading ? <Spinner /> : (
                 <div className="row g-4">
@@ -122,6 +123,7 @@ const Products = () => {
                   ))}
                 </div>
               )}
+            </div>
           </div>
         </div>
       </div>

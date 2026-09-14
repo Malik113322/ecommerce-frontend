@@ -47,7 +47,7 @@ const Register = () => {
 
   return (
     <Layout title={"eCommerce Registration"}>
-      <div className="d-flex justify-content-center align-items-center vh-100 bg-light overflow-scroll py-5">
+      <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light py-5">
         <form
           onSubmit={handleSubmit}
           className="p-4 p-md-5 bg-white shadow-lg rounded-4 mx-3"

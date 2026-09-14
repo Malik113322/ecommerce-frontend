@@ -52,9 +52,11 @@ const MobileMenu = ({ auth, handleLogout, category }) => {
             <li className="nav-item">
               <Link to="/" className="nav-link" onClick={closeMenu}>Home</Link>
             </li>
-            <li className="nav-item">
-              <Link to="/myorders" className="nav-link" onClick={closeMenu}>My Orders</Link>
-            </li>
+            {auth?.user && (
+              <li className="nav-item">
+                <Link to="/myorders" className="nav-link" onClick={closeMenu}>My Orders</Link>
+              </li>
+            )}
             <li className="nav-item">
               <Link to="/categories" className="nav-link" onClick={closeMenu}>Categories</Link>
               <ul className="list-unstyled ms-3">

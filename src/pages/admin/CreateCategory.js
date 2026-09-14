@@ -84,16 +84,16 @@ const CreateCategory = () => {
 
   return (
     <Layout title={"Dashboard - Create Category"}>
-      <div className="container-fluid py-4">
-        <div className="row">
+      <div className="container py-4">
+        <div className="row g-4">
           {/* Left Menu */}
-          <div className="col-md-3">
+          <div className="col-12 col-md-4 col-lg-3">
             <Adminmenu />
           </div>
 
           {/* Main Content */}
-          <div className="col-md-9">
-            <div className="card shadow border-0 p-4">
+          <div className="col-12 col-md-8 col-lg-9">
+            <div className="card shadow-sm border-0 rounded-4 p-4">
               <h2 className="mb-4 text-center fw-bold text-danger">
                 Manage Categories
               </h2>

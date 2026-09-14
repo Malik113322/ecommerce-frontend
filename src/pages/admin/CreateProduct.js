@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import Adminmenu from "../../components/Layout/Adminmenu";
 import axios from "axios";
@@ -36,7 +36,7 @@ const CreateProduct = () => {
     try {
       const { data } = await axios.post(`${process.env.REACT_APP_URL}/api/v1/product/create-product`, productForm);
       if (data.success) {
-        toast.success("")
+        toast.success("Product created successfully")
         setTimeout(() => {
           navigate("/dashboard/admin/products")
         })
@@ -62,19 +62,20 @@ const CreateProduct = () => {
     }
   }
 
-  useState(() => {
+  useEffect(() => {
     getCategories()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <Layout title={"Dashboard - Create Product"}>
-      <div className="container-fluid ">
-        <div className="row">
-          <div className="col-md-3">
+      <div className="container py-4">
+        <div className="row g-4">
+          <div className="col-12 col-md-4 col-lg-3">
             <Adminmenu />
           </div>
-          <div className="col-md-9">
-            <div className="card shadow-lg border-0 rounded-4 p-4">
+          <div className="col-12 col-md-8 col-lg-9">
+            <div className="card shadow-sm border-0 rounded-4 p-4">
               <h2 className="fw-bold text-center mb-4">✨ Create Product</h2>
 
               {/* Category */}

@@ -87,13 +87,13 @@ const UpdateProduct = () => {
 
   return (
     <Layout title="Update Product">
-      <div className="container-fluid py-4">
-        <div className="row">
-          <div className="col-md-3">
+      <div className="container py-4">
+        <div className="row g-4">
+          <div className="col-12 col-md-4 col-lg-3">
             <Adminmenu />
           </div>
-          <div className="col-md-9">
-            <div className="card shadow-sm border-0 rounded-3 p-4">
+          <div className="col-12 col-md-8 col-lg-9">
+            <div className="card shadow-sm border-0 rounded-4 p-4">
               <h3 className="fw-bold text-center text-danger border-bottom pb-2 mb-4">
                 Update Product
               </h3>
