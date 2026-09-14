@@ -31,6 +31,7 @@ const Products = () => {
 
   useEffect(() => {
     getProductsHandle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // delete product
